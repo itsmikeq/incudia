@@ -2,3 +2,9 @@ asset 'jquery'
 asset 'jquery-ui'
 asset 'bootstrap'
 asset "backbone"
+asset "select2"
+asset "dropzone"
+asset "raphael"
+asset "ace"
+asset "nprogress"
+asset "zeroclipboard"

@@ -4,6 +4,12 @@
     "jquery": "latest",
     "jquery-ui": "latest",
     "bootstrap": "latest",
-    "backbone": "latest"
+    "backbone": "latest",
+    "select2": "latest",
+    "dropzone": "latest",
+    "raphael": "latest",
+    "ace": "latest",
+    "nprogress": "latest",
+    "zeroclipboard": "latest"
   }
 }
