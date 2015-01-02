@@ -20,4 +20,6 @@
 
 class Interest < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
+
+  scope :without_users, -> {InterestsUser.joins(:interest).where("interests.id not in (#{InterestsUser.pluck(:interest_id).uniq})")}
 end

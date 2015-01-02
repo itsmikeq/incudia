@@ -1,0 +1,23 @@
+%h1 Listing social_nets
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Auth api
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @social_nets.each do |social_net|
+      %tr
+        %td= social_net.name
+        %td= social_net.auth_api
+        %td= link_to 'Show', social_net
+        %td= link_to 'Edit', edit_social_net_path(social_net)
+        %td= link_to 'Destroy', social_net, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Social net', new_social_net_path

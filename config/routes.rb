@@ -123,6 +123,10 @@
 
 Incudia::Application.routes.draw do
 
+  resources :social_nets
+
+  resources :social_nets_users
+
   devise_for :users #, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
   resources :focalpoints

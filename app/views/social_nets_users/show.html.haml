@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @social_nets_user.user
+%p
+  %b Social net:
+  = @social_nets_user.social_net
+
+= link_to 'Edit', edit_social_nets_user_path(@social_nets_user)
+\|
+= link_to 'Back', social_nets_users_path

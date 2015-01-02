@@ -10,6 +10,9 @@ class ApplicationController < ActionController::Base
   
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :reject_locked!, if: :devise_controller?
+  before_filter :default_headers
+  before_filter :add_gon_variables
+
 
 
   rescue_from Encoding::CompatibilityError do |exception|
@@ -53,10 +56,8 @@ class ApplicationController < ActionController::Base
   end
 
   def cache_history
-    return true unless current_user && current_user.qc_user?
-    unless request.original_url.include? '/refs/'
-      current_user.add_history_link(params)
-    end
+    return true unless current_user
+    current_user.add_history_link(params)
   end
 
   def render_403
@@ -64,11 +65,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_401
-    if current_user && current_user.qc_user?
-      render file: Rails.root.join("public", "401_internal"), layout: false, status: "401"
-    else
-      render file: Rails.root.join("public", "401"), layout: false, status: "401"
-    end
+    render file: Rails.root.join("public", "401"), layout: false, status: "401"
   end
 
   def render_404

@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @social_net.name
+%p
+  %b Auth api:
+  = @social_net.auth_api
+
+= link_to 'Edit', edit_social_net_path(@social_net)
+\|
+= link_to 'Back', social_nets_path

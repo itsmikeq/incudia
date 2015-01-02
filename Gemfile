@@ -101,6 +101,7 @@ end
 # PostgreSQL
 gem 'pg'
 
+gem 'default_value_for'
 # Devise: https://github.com/plataformatec/devise
 gem 'devise', '3.4.1'
 gem "devise-async"

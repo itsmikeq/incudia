@@ -3,7 +3,7 @@
 %table
   %thead
     %tr
-      %th Ext service
+      %th Social net
       %th Consumer
       %th
       %th
@@ -12,7 +12,7 @@
   %tbody
     - @ext_services.each do |ext_service|
       %tr
-        %td= ext_service.ext_service
+        %td= ext_service.social_net
         %td= ext_service.consumer
         %td= link_to 'Show', ext_service
         %td= link_to 'Edit', edit_ext_service_path(ext_service)

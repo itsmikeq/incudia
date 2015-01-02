@@ -21,6 +21,10 @@
 #  unconfirmed_email      :string
 #  created_at             :datetime
 #  updated_at             :datetime
+#  authentication_token   :string
+#  provider               :string
+#  extern_uid             :string
+#  username               :string
 #
 # Indexes
 #
@@ -30,43 +34,135 @@
 #
 
 class User < ActiveRecord::Base
-  
+  include TokenAuthenticatable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-         
+
+  has_many :social_nets_users, dependent: :destroy
+  has_many :social_nets, through: :social_nets_users
+  has_many :areas_users, dependent: :destroy
+  has_many :areas, through: :areas_users
+  has_many :interests_users
+  has_many :interests, through: :interests_users
+  # has_many :memberships, ->(user) {where membership: { member_id: user.id}}
+  # has_many :owned_memberships, -> { where membership: { access_level: Incudia::Access::OWNER } }, through: :memberships, source: :membership
+
+  default_value_for :admin, false
+  # default_value_for :can_create_group, Incudia.config.default_can_create_group
+  validates :extern_uid, allow_blank: true, uniqueness: {scope: :provider}
+
+  validates :username, presence: true, uniqueness: {case_sensitive: false},
+            exclusion:           {in: Incudia::Blacklist.path},
+            format:              {with:    Incudia::Regex.username_regex,
+                                  message: Incudia::Regex.username_regex_message}
+
+  # Virtual attribute for authenticating by either username or email
+  attr_accessor :login
+
   # Pagination
   paginates_per 100
-  
+
   # Validations
   # :email
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
-  
-  def self.paged(page_number)
-    order(admin: :desc, email: :asc).page page_number
-  end
-  
-  def self.search_and_order(search, page_number)
-    if search
-      where("email LIKE ?", "%#{search.downcase}%").order(
-      admin: :desc, email: :asc
-      ).page page_number
-    else
+
+  # Class methods
+  class << self
+    # Devise method overridden to allow sign in with email or username
+    def find_for_database_authentication(warden_conditions)
+      conditions = warden_conditions.dup
+      if login = conditions.delete(:login)
+        where(conditions).where(["lower(username) = :value OR lower(email) = :value", {value: login.downcase}]).first
+      else
+        where(conditions).first
+      end
+    end
+
+    def search(query)
+      where("lower(name) LIKE :query OR lower(email) LIKE :query OR lower(username) LIKE :query", query: "%#{query.downcase}%")
+    end
+
+    def by_login(login)
+      where('lower(username) = :value OR lower(email) = :value',
+            value: login.to_s.downcase).first
+    end
+
+    def by_username_or_id(name_or_id)
+      where('users.username = ? OR users.id = ?', name_or_id.to_s, name_or_id.to_i).first
+    end
+
+    def build_user(attrs = {})
+      User.new(attrs)
+    end
+
+    def paged(page_number)
       order(admin: :desc, email: :asc).page page_number
     end
+
+    def search_and_order(search, page_number)
+      if search
+        where("email LIKE ?", "%#{search.downcase}%").order(
+            admin: :desc, email: :asc
+        ).page page_number
+      else
+        order(admin: :desc, email: :asc).page page_number
+      end
+    end
+
+    def last_signups(count)
+      order(created_at: :desc).limit(count).select("id", "email", "created_at")
+    end
+
+    def last_signins(count)
+      order(last_sign_in_at:
+                :desc).limit(count).select("id", "email", "last_sign_in_at")
+    end
+
+    def users_count
+      where("admin = ? AND locked = ?", false, false).count
+    end
   end
-  
-  def self.last_signups(count)
-    order(created_at: :desc).limit(count).select("id","email","created_at")
+
+  # Instance methods
+
+  def memberships
+    Membership.where(member_id: id, of_type: "User")
   end
-  
-  def self.last_signins(count)
-    order(last_sign_in_at: 
-    :desc).limit(count).select("id","email","last_sign_in_at")
+
+  def namespace_uniq
+    namespace_name = self.username
+    if Namespace.find_by(path: namespace_name)
+      self.errors.add :username, "already exists"
+    end
   end
-  
-  def self.users_count
-    where("admin = ? AND locked = ?",false,false).count
+
+  def unique_email
+    self.errors.add(:email, 'has already been taken') if Email.exists?(email: self.email)
   end
+
+  def with_defaults
+    User.defaults.each do |k, v|
+      self.send("#{k}=", v)
+    end
+
+    self
+  end
+
+  def generate_password
+    if self.force_random_password
+      self.password = self.password_confirmation = Devise.friendly_token.first(8)
+    end
+  end
+
+  def generate_reset_token
+    @reset_token, enc = Devise.token_generator.generate(self.class, :reset_password_token)
+
+    self.reset_password_token   = enc
+    self.reset_password_sent_at = Time.now.utc
+
+    @reset_token
+  end
+
 end

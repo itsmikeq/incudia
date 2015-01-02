@@ -13,12 +13,12 @@ module Incudia
     end
 
     def self.mute_mailer
-      code = <<-eos
-def Notify.delay
-  self
-end
-      eos
-      eval(code)
+#       code = <<-eos
+# def Notify.delay
+#   self
+# end
+#       eos
+#       eval(code)
     end
   end
 end

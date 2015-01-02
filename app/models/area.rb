@@ -18,5 +18,5 @@
 
 class Area < ActiveRecord::Base
   belongs_to :owner
-  has_many :focal_points
+  has_many :focalpoints
 end

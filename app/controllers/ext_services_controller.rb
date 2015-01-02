@@ -42,6 +42,6 @@ class ExtServicesController < ApplicationController
     end
 
     def ext_service_params
-      params.require(:ext_service).permit(:ext_service_id, :consumer_id, :consumer_type)
+      params.require(:ext_service).permit(:social_net_id, :consumer_id, :consumer_type)
     end
 end
