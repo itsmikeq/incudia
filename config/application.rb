@@ -27,7 +27,7 @@ module Incudia
     config.generators.test_framework false
     
     # autoload lib path
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/app/services )
     # Add in the bower assets
     config.assets.paths << Rails.root.join("vendor","assets","bower_components")
 
