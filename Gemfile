@@ -26,6 +26,8 @@ gem 'font-awesome-sass', '4.2.2'
 # Bootstrap 3: https://github.com/twbs/bootstrap-sass
 gem 'bootstrap-sass', '3.3.1.0'
 
+gem "bower-rails", "~> 0.9.1"
+
 group :development, :test do
   gem 'byebug', '3.5.1'
   gem 'web-console', '2.0.0'

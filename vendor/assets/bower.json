@@ -1,0 +1,9 @@
+{
+  "name": "dsl-generated dependencies",
+  "dependencies": {
+    "jquery": "latest",
+    "jquery-ui": "latest",
+    "bootstrap": "latest",
+    "backbone": "latest"
+  }
+}

@@ -1,0 +1,4 @@
+asset 'jquery'
+asset 'jquery-ui'
+asset 'bootstrap'
+asset "backbone"

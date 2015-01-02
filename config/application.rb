@@ -29,6 +29,6 @@ module Incudia
     # autoload lib path
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
-    
+    config.assets.paths << Rails.root.join("vendor","assets","bower_components")
   end
 end
