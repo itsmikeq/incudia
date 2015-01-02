@@ -1,0 +1,16 @@
+= form_for @ext_service do |f|
+  - if @ext_service.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ext_service.errors.count, "error")} prohibited this ext_service from being saved:"
+      %ul
+        - @ext_service.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :ext_service
+    = f.text_field :ext_service
+  .field
+    = f.label :consumer
+    = f.text_field :consumer
+  .actions
+    = f.submit 'Save'

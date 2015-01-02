@@ -1,0 +1,23 @@
+%h1 Listing ext_services
+
+%table
+  %thead
+    %tr
+      %th Ext service
+      %th Consumer
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @ext_services.each do |ext_service|
+      %tr
+        %td= ext_service.ext_service
+        %td= ext_service.consumer
+        %td= link_to 'Show', ext_service
+        %td= link_to 'Edit', edit_ext_service_path(ext_service)
+        %td= link_to 'Destroy', ext_service, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Ext service', new_ext_service_path

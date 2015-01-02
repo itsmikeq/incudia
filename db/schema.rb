@@ -11,10 +11,64 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141010133701) do
+ActiveRecord::Schema.define(version: 20150102051830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admin_ext_services", force: :cascade do |t|
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "areas", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "owner_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "visibility_level"
+  end
+
+  add_index "areas", ["owner_id"], name: "index_areas_on_owner_id", using: :btree
+  add_index "areas", ["visibility_level"], name: "index_areas_on_visibility_level", using: :btree
+
+  create_table "broadcast_messages", force: :cascade do |t|
+    t.string   "message"
+    t.datetime "expire_in"
+    t.datetime "start_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ext_services", force: :cascade do |t|
+    t.integer  "ext_service_id"
+    t.integer  "consumer_id"
+    t.string   "consumer_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "ext_services", ["consumer_type", "consumer_id"], name: "index_ext_services_on_consumer_type_and_consumer_id", using: :btree
+  add_index "ext_services", ["ext_service_id"], name: "index_ext_services_on_ext_service_id", using: :btree
+
+  create_table "focals", force: :cascade do |t|
+    t.integer  "area_id"
+    t.string   "area_type"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "visibility_level"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "focals", ["area_type", "area_id"], name: "index_focals_on_area_type_and_area_id", using: :btree
+  add_index "focals", ["name"], name: "index_focals_on_name", unique: true, using: :btree
+  add_index "focals", ["owner_type", "owner_id"], name: "index_focals_on_owner_type_and_owner_id", using: :btree
+  add_index "focals", ["visibility_level"], name: "index_focals_on_visibility_level", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -28,6 +82,62 @@ ActiveRecord::Schema.define(version: 20141010133701) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "interests", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "interests", ["name"], name: "index_interests_on_name", using: :btree
+  add_index "interests", ["owner_type", "owner_id"], name: "index_interests_on_owner_type_and_owner_id", using: :btree
+  add_index "interests", ["type"], name: "index_interests_on_type", using: :btree
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "member_id"
+    t.integer  "of_id"
+    t.string   "of_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", using: :btree
+  add_index "memberships", ["of_type", "of_id"], name: "index_memberships_on_of_type_and_of_id", using: :btree
+
+  create_table "namespaces", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "type"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "visibility_level"
+  end
+
+  add_index "namespaces", ["name"], name: "index_namespaces_on_name", unique: true, using: :btree
+  add_index "namespaces", ["owner_type", "owner_id"], name: "index_namespaces_on_owner_type_and_owner_id", using: :btree
+  add_index "namespaces", ["type"], name: "index_namespaces_on_type", using: :btree
+  add_index "namespaces", ["visibility_level"], name: "index_namespaces_on_visibility_level", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "type"
+    t.text     "message"
+    t.integer  "from_id"
+    t.string   "from_type"
+    t.integer  "to_id"
+    t.string   "to_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "notifications", ["from_type", "from_id"], name: "index_notifications_on_from_type_and_from_id", using: :btree
+  add_index "notifications", ["to_type", "to_id"], name: "index_notifications_on_to_type_and_to_id", using: :btree
+  add_index "notifications", ["type"], name: "index_notifications_on_type", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -54,4 +164,5 @@ ActiveRecord::Schema.define(version: 20141010133701) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "ext_services", "ext_services"
 end

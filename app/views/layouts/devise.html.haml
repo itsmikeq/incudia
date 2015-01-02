@@ -1,0 +1,33 @@
+!!! 5
+%html{ lang: "en"}
+  = render "layouts/head"
+  %body.ui_basic.login-page
+    = render "layouts/flash"
+    .container
+      .content
+        .login-title
+          %h1= brand_title
+    %hr
+    .container
+      .content
+        .row
+          .col-md-7
+            - if brand_item
+              .brand-image
+                = brand_image
+              .brand_text
+                = brand_text
+            - else
+              .brand_text.hidden-xs
+                %h2 Create, Invent, Include, Invest
+
+                %p.lead
+                  Find people with similar interests and do something.
+
+          .col-md-5
+            = yield
+    %hr
+    .container
+      .footer-links
+        = link_to "Documentation", "http://doc.incudia.com/"
+        = link_to "About Incudia", "https://about.incudia.com/"

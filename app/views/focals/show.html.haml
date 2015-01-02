@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Area:
+  = @focal.area
+%p
+  %b Name:
+  = @focal.name
+%p
+  %b Description:
+  = @focal.description
+%p
+  %b Owner:
+  = @focal.owner
+%p
+  %b Visibility level:
+  = @focal.visibility_level
+
+= link_to 'Edit', edit_focal_path(@focal)
+\|
+= link_to 'Back', focals_path

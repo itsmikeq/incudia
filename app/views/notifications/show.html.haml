@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Type:
+  = @notification.type
+%p
+  %b Message:
+  = @notification.message
+%p
+  %b From:
+  = @notification.from
+%p
+  %b To:
+  = @notification.to
+
+= link_to 'Edit', edit_notification_path(@notification)
+\|
+= link_to 'Back', notifications_path

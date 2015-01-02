@@ -1,0 +1,21 @@
+%h1 Listing admin_ext_services
+
+%table
+  %thead
+    %tr
+      %th Url
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @admin_ext_services.each do |admin_ext_service|
+      %tr
+        %td= admin_ext_service.url
+        %td= link_to 'Show', admin_ext_service
+        %td= link_to 'Edit', edit_admin_ext_service_path(admin_ext_service)
+        %td= link_to 'Destroy', admin_ext_service, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Ext service', new_admin_ext_service_path

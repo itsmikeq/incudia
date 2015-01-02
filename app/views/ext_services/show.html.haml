@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Ext service:
+  = @ext_service.ext_service
+%p
+  %b Consumer:
+  = @ext_service.consumer
+
+= link_to 'Edit', edit_ext_service_path(@ext_service)
+\|
+= link_to 'Back', ext_services_path

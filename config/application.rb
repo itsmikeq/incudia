@@ -28,7 +28,18 @@ module Incudia
     
     # autoload lib path
     config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    # Add in the bower assets
     config.assets.paths << Rails.root.join("vendor","assets","bower_components")
+
+    config.middleware.use Rack::Attack
+
+    # Allow access to Incudia API from other domains
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '/api/*', headers: :any, methods: [:get, :post, :options, :put, :delete]
+      end
+    end
+
   end
 end
