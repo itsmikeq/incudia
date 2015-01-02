@@ -19,14 +19,14 @@
 #        user_confirmation POST   /users/confirmation(.:format)          devise/confirmations#create
 #    new_user_confirmation GET    /users/confirmation/new(.:format)      devise/confirmations#new
 #                          GET    /users/confirmation(.:format)          devise/confirmations#show
-#                   focals GET    /focals(.:format)                      focals#index
-#                          POST   /focals(.:format)                      focals#create
-#                new_focal GET    /focals/new(.:format)                  focals#new
-#               edit_focal GET    /focals/:id/edit(.:format)             focals#edit
-#                    focal GET    /focals/:id(.:format)                  focals#show
-#                          PATCH  /focals/:id(.:format)                  focals#update
-#                          PUT    /focals/:id(.:format)                  focals#update
-#                          DELETE /focals/:id(.:format)                  focals#destroy
+#              focalpoints GET    /focalpoints(.:format)                 focalpoints#index
+#                          POST   /focalpoints(.:format)                 focalpoints#create
+#           new_focalpoint GET    /focalpoints/new(.:format)             focalpoints#new
+#          edit_focalpoint GET    /focalpoints/:id/edit(.:format)        focalpoints#edit
+#               focalpoint GET    /focalpoints/:id(.:format)             focalpoints#show
+#                          PATCH  /focalpoints/:id(.:format)             focalpoints#update
+#                          PUT    /focalpoints/:id(.:format)             focalpoints#update
+#                          DELETE /focalpoints/:id(.:format)             focalpoints#destroy
 #                    areas GET    /areas(.:format)                       areas#index
 #                          POST   /areas(.:format)                       areas#create
 #                 new_area GET    /areas/new(.:format)                   areas#new
@@ -125,7 +125,7 @@ Incudia::Application.routes.draw do
 
   devise_for :users #, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
-  resources :focals
+  resources :focalpoints
 
   resources :areas
 

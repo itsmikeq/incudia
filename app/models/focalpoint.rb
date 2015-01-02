@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: focals
+# Table name: focalpoints
 #
 #  id               :integer          not null, primary key
 #  area_id          :integer
@@ -15,13 +15,13 @@
 #
 # Indexes
 #
-#  index_focals_on_area_type_and_area_id    (area_type,area_id)
-#  index_focals_on_name                     (name) UNIQUE
-#  index_focals_on_owner_type_and_owner_id  (owner_type,owner_id)
-#  index_focals_on_visibility_level         (visibility_level)
+#  index_focalpoints_on_area_type_and_area_id    (area_type,area_id)
+#  index_focalpoints_on_name                     (name) UNIQUE
+#  index_focalpoints_on_owner_type_and_owner_id  (owner_type,owner_id)
+#  index_focalpoints_on_visibility_level         (visibility_level)
 #
 
-class Focal < ActiveRecord::Base
+class Focalpoint < ActiveRecord::Base
   belongs_to :area, polymorphic: true
   belongs_to :owner, polymorphic: true
 end

@@ -1,6 +1,6 @@
-class CreateFocals < ActiveRecord::Migration
+class CreateFocalpoints < ActiveRecord::Migration
   def change
-    create_table :focals do |t|
+    create_table :focalpoints do |t|
       t.references :area, polymorphic: true, index: true
       t.string :name
       t.string :description
@@ -9,7 +9,7 @@ class CreateFocals < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :focals, :name, unique: true
-    add_index :focals, :visibility_level
+    add_index :focalpoints, :name, unique: true
+    add_index :focalpoints, :visibility_level
   end
 end

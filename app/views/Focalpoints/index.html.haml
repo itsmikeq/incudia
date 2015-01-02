@@ -1,4 +1,4 @@
-%h1 Listing focals
+%h1 Listing FocalPoints
 
 %table
   %thead
@@ -13,7 +13,7 @@
       %th
       
   %tbody
-    - @focals.each do |focal|
+    - @focalpoints.each do |focal|
       %tr
         %td= focal.area
         %td= focal.name
@@ -21,9 +21,9 @@
         %td= focal.owner
         %td= focal.visibility_level
         %td= link_to 'Show', focal
-        %td= link_to 'Edit', edit_focal_path(focal)
+        %td= link_to 'Edit', edit_focalpoint_path(focal)
         %td= link_to 'Destroy', focal, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Focal', new_focal_path
+= link_to 'New Focalpoint', new_focalpoint_path

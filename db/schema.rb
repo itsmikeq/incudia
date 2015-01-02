@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150102051830) do
   add_index "ext_services", ["consumer_type", "consumer_id"], name: "index_ext_services_on_consumer_type_and_consumer_id", using: :btree
   add_index "ext_services", ["ext_service_id"], name: "index_ext_services_on_ext_service_id", using: :btree
 
-  create_table "focals", force: :cascade do |t|
+  create_table "focalpoints", force: :cascade do |t|
     t.integer  "area_id"
     t.string   "area_type"
     t.string   "name"
@@ -65,10 +65,10 @@ ActiveRecord::Schema.define(version: 20150102051830) do
     t.datetime "updated_at",       null: false
   end
 
-  add_index "focals", ["area_type", "area_id"], name: "index_focals_on_area_type_and_area_id", using: :btree
-  add_index "focals", ["name"], name: "index_focals_on_name", unique: true, using: :btree
-  add_index "focals", ["owner_type", "owner_id"], name: "index_focals_on_owner_type_and_owner_id", using: :btree
-  add_index "focals", ["visibility_level"], name: "index_focals_on_visibility_level", using: :btree
+  add_index "focalpoints", ["area_type", "area_id"], name: "index_focalpoints_on_area_type_and_area_id", using: :btree
+  add_index "focalpoints", ["name"], name: "index_focalpoints_on_name", unique: true, using: :btree
+  add_index "focalpoints", ["owner_type", "owner_id"], name: "index_focalpoints_on_owner_type_and_owner_id", using: :btree
+  add_index "focalpoints", ["visibility_level"], name: "index_focalpoints_on_visibility_level", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false

@@ -1,9 +1,9 @@
-= form_for @focal do |f|
-  - if @focal.errors.any?
+= form_for @focalpoints do |f|
+  - if @focalpoints.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@focal.errors.count, "error")} prohibited this focal from being saved:"
+      %h2= "#{pluralize(@focalpoints.errors.count, "error")} prohibited this focalpoints from being saved:"
       %ul
-        - @focal.errors.full_messages.each do |msg|
+        - @focalpoints.errors.full_messages.each do |msg|
           %li= msg
 
   .field
