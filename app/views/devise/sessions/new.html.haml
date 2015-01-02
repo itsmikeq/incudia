@@ -1,26 +1,29 @@
 .row
-  .col-sm-6
+  .col-sm-12
     %h1 Sign in
     = form_for(resource, :as => resource_name, |
       :url => session_path(resource_name),     |
       role: "form") do |f|                     |
-      .form-group
-        = f.label :email
-        .row
-          .col-sm-6
-            = f.text_field :email, :autofocus => true, class: "form-control"
-      .form-group
-        = f.label :password
-        .row
-          .col-sm-6
-            = f.password_field :password, class: "form-control"
-      - if devise_mapping.rememberable?
+      .form-inline
         .form-group
+          = f.label :email, class: "sr-only"
           .row
-            .col-sm-6
+            .col-sm-4
+              = f.text_field :email, :autofocus => true, class: "form-control", placeholder: "Email"
+        .form-group
+          = f.label :password, class: "sr-only"
+          .row
+            .col-sm-4
+              = f.password_field :password, class: "form-control", placeholder: "Email"
+        - if devise_mapping.rememberable?
+          .row
+            .col-sm-5
               = f.check_box :remember_me
               = f.label :remember_me
-      .row
-        .col-sm-6
-          = f.submit "Sign in", class: "btn btn-primary"
+        .form-inline
+          .form-group
+            .row
+              .col-sm-3
+                = f.submit "Sign in", class: "btn btn-primary"
+
     = render "devise/shared/links"
