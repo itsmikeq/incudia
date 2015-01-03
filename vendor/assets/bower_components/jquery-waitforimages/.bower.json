@@ -1,0 +1,14 @@
+{
+  "name": "jquery-waitforimages",
+  "homepage": "https://github.com/StarterSquad/waitForImages",
+  "version": "1.5.0",
+  "_release": "1.5.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.5.0",
+    "commit": "553a02679a01f1e7188e8b9ef35de3584ff688fc"
+  },
+  "_source": "git://github.com/StarterSquad/waitForImages.git",
+  "_target": "*",
+  "_originalSource": "jquery-waitforimages"
+}

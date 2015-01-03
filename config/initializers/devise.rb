@@ -241,6 +241,25 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
+  Incudia.config.omniauth.providers.each do |provider|
+    provider_arguments = []
+
+    %w[app_id app_secret].each do |argument|
+      provider_arguments << provider[argument] if provider[argument]
+    end
+
+    case provider['args']
+      when Array
+        # An Array from the configuration will be expanded.
+        provider_arguments.concat provider['args']
+      when Hash
+        # A Hash from the configuration will be passed as is.
+        provider_arguments << provider['args']
+    end
+
+    config.omniauth provider['name'].to_sym, *provider_arguments
+
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

@@ -130,10 +130,12 @@ gem 'default_value_for'
 # Devise: https://github.com/plataformatec/devise
 gem 'devise', '3.4.1'
 gem "devise-async"
-# gem 'omniauth'
-# gem 'omniauth-google-oauth2'
-# gem 'omniauth-twitter'
-# gem 'omniauth-github'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
+gem 'omniauth-facebook'
+
 
 gem 'rack-cors', require: 'rack/cors'
 

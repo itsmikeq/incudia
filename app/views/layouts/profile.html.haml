@@ -1,0 +1,32 @@
+!!! 5
+%html{ lang: "en"}
+  %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
+  %title= @title || "Incudia"
+  = favicon_link_tag 'favicon.ico'
+  = favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png'
+  = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+  = javascript_include_tag "application", "data-turbolinks-track" => true
+  = csrf_meta_tags
+  = render "layouts/head", title: "Profile"
+  %body{class: "profile", :'data-page' => body_data_page}
+    = render "layouts/head", title: "profile: #{@current_user.name}"
+    = render "layouts/broadcast"
+    #wrap
+      %header
+        = render 'layouts/navigation'
+        = render "layouts/nav/profile"
+      .container
+        .row
+          .col-sm-6.col-sm-offset-3.text-center
+            = render 'layouts/messages'
+        .row
+          .col-sm-12
+            = yield
+
+    %nav.main-nav.navbar-collapse.collapse
+      .container= render 'layouts/nav/profile'
+    .container
+      .content
+        = render "layouts/flash"
+        = yield
+    = render 'layouts/footer'

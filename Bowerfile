@@ -8,3 +8,5 @@ asset "raphael"
 asset "ace"
 asset "nprogress"
 asset "zeroclipboard"
+asset 'bootstrap-social-buttons'
+asset 'jquery-waitforimages'

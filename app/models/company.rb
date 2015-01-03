@@ -21,5 +21,5 @@
 #
 
 class Company < Namespace
-
+  belongs_to :owner, polymorphic: true
 end

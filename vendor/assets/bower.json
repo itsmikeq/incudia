@@ -10,6 +10,8 @@
     "raphael": "latest",
     "ace": "latest",
     "nprogress": "latest",
-    "zeroclipboard": "latest"
+    "zeroclipboard": "latest",
+    "bootstrap-social-buttons": "latest",
+    "jquery-waitforimages": "latest"
   }
 }

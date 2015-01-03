@@ -1,0 +1,8 @@
+# ENVIRONMENT VARIABLES
+DOMAIN: "http://mydomain.com"
+SENDER_EMAIL: "no-reply@mydomain.com"
+MAILER_DOMAIN: "mydomain.com"
+SMTP_SERVER: "smtp.mydomain.com"
+SMTP_PORT: "587"
+SMTP_USER: ""
+SMTP_PWD: ""

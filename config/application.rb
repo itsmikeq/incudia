@@ -25,6 +25,10 @@ module Incudia
     
     # Test framework
     config.generators.test_framework false
+
+    config.app_domain = 'somedomain.com'
+
+    config.action_mailer.default_url_options = { host: config.app_domain }
     
     # autoload lib path
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/app/services )

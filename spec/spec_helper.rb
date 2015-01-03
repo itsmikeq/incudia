@@ -21,7 +21,6 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'webmock/rspec'
-# require 'email_spec'
 require 'sidekiq/testing/inline'
 require 'capybara/poltergeist'
 
@@ -57,6 +56,7 @@ RSpec.configure do |config|
   # config.use_transactional_fixtures = false
   # config.use_instantiated_fixtures  = false
   # config.include Devise::TestHelpers, type: :controller
+  config.include FactoryGirl::Syntax::Methods
   config.include TestEnv
   config.before(:suite) do
     TestEnv.init

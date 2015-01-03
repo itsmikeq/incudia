@@ -8,15 +8,16 @@
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
-  %body
+  %body{class: "application", :'data-page' => body_data_page}
     #wrap
       %header
         = render 'layouts/navigation'
+        = render "layouts/broadcast"
       .container
         .row
           .col-sm-6.col-sm-offset-3.text-center
-            = render 'layouts/messages'
         .row
           .col-sm-12
             = yield
+    = render 'layouts/messages'
     = render 'layouts/footer'

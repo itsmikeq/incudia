@@ -42,6 +42,6 @@ class SocialNetsController < ApplicationController
     end
 
     def social_net_params
-      params.require(:social_net).permit(:name, :auth_api)
+      params.require(:social_net).permit(:name, :api_url)
     end
 end

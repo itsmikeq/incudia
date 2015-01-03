@@ -1,3 +1,4 @@
+require 'gon'
 require "application_responder"
 
 class ApplicationController < ActionController::Base
@@ -12,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_filter :reject_locked!, if: :devise_controller?
   before_filter :default_headers
   before_filter :add_gon_variables
-
+  before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
 
 
   rescue_from Encoding::CompatibilityError do |exception|
@@ -81,16 +82,15 @@ class ApplicationController < ActionController::Base
     headers['X-UA-Compatible'] = 'IE=edge'
     headers['X-Content-Type-Options'] = 'nosniff'
     # Errors if the server (nginx) already sets this
-    headers['Strict-Transport-Security'] = 'max-age=31536000 [; includeSubdomains]' if Incudia.config.incudia.https
+    headers['Strict-Transport-Security'] = 'max-age=31536000 [; includeSubdomains]' if Incudia.config.https
   end
 
   def add_gon_variables
-    gon.api_version = API::API.version
-    gon.relative_url_root = Incudia.config.incudia.relative_url_root rescue nil
-    gon.default_avatar_url = URI::join(Incudia.config.incudia.url, ActionController::Base.helpers.image_path('no_avatar.png')).to_s
+    # gon.api_version = API::API.version
+    gon.relative_url_root = Incudia.config.relative_url_root rescue nil
     if current_user
       gon.current_user_id = current_user.id
-      gon.api_token = current_user.private_token
+      gon.api_token = current_user.authentication_token
     end
   end
 
@@ -137,5 +137,16 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :require_admin!
-  
+
+  def ensure_signup_complete
+    # Ensure we don't go into an infinite loop
+    return if action_name == 'finish_signup'
+
+    # Redirect to the 'finish_signup' page if the user
+    # email hasn't been verified yet
+    if current_user && !current_user.email_verified?
+      redirect_to finish_signup_path(current_user)
+    end
+  end
+
 end

@@ -24,5 +24,4 @@ class Namespace < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
   delegate :name, to: :owner, allow_nil: true, prefix: true
-  delegate :description, to: :owner
 end

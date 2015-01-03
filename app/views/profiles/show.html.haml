@@ -1,0 +1,46 @@
+%h3.page-title
+  Profile settings
+%p.light
+  This information appears on your profile.
+%hr
+
+
+
+= form_for @user, url: profile_path, method: :put, html: { multipart: true, class: "edit_user form-horizontal" }, authenticity_token: true do |f|
+  -if @user.errors.any?
+    %div.alert.alert-danger
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+  .row
+    .col-md-7
+      .form-group
+        = f.label :name, class: "control-label"
+        .col-sm-10
+          = f.text_field :name, class: "form-control", required: true
+          %span.help-block Enter your name, so people you know can recognize you.
+
+      .form-group
+        = f.label :email, class: "control-label"
+        .col-sm-10
+          - if !@user.email_verified?
+            = f.text_field :email, class: "form-control", required: true, value: nil
+          - else
+            = f.text_field :email, class: "form-control", required: true
+          - if @user.unconfirmed_email.present?
+            %span.help-block
+              Please click the link in the confirmation email before continuing, it was sent to
+              %strong #{@user.unconfirmed_email}
+
+          - else
+            %span.help-block We also use email for avatar detection if no avatar is uploaded.
+
+    .col-md-5
+      - if @user.public_profile?
+        .bs-callout.bs-callout-info
+          %h4 Public profile
+          %p Your profile is publicly visible
+
+
+  .form-actions
+    = f.submit 'Save changes', class: "btn btn-save"

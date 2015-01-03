@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150103015653) do
+ActiveRecord::Schema.define(version: 20150103064405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,17 +45,6 @@ ActiveRecord::Schema.define(version: 20150103015653) do
   add_index "areas_users", ["user_id"], name: "index_areas_users_on_user_id", using: :btree
 
   create_table "broadcast_messages", force: :cascade do |t|
-    t.string   "message"
-    t.datetime "ends_at"
-    t.datetime "starts_at"
-    t.integer  "alert_type"
-    t.string   "color"
-    t.string   "font"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "broadcasts", force: :cascade do |t|
     t.string   "message"
     t.datetime "ends_at"
     t.datetime "starts_at"
@@ -106,6 +95,16 @@ ActiveRecord::Schema.define(version: 20150103015653) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "identities", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "interests", force: :cascade do |t|
     t.string   "name"
@@ -177,9 +176,10 @@ ActiveRecord::Schema.define(version: 20150103015653) do
 
   create_table "social_nets", force: :cascade do |t|
     t.string   "name"
-    t.string   "auth_api"
+    t.string   "api_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "enabled"
   end
 
   create_table "social_nets_users", force: :cascade do |t|
@@ -187,6 +187,7 @@ ActiveRecord::Schema.define(version: 20150103015653) do
     t.integer  "social_net_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "username"
   end
 
   add_index "social_nets_users", ["social_net_id"], name: "index_social_nets_users_on_social_net_id", using: :btree
@@ -215,6 +216,8 @@ ActiveRecord::Schema.define(version: 20150103015653) do
     t.string   "provider"
     t.string   "extern_uid"
     t.string   "username"
+    t.string   "name"
+    t.integer  "visibility_level"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -224,6 +227,7 @@ ActiveRecord::Schema.define(version: 20150103015653) do
   add_foreign_key "areas_users", "areas"
   add_foreign_key "areas_users", "users"
   add_foreign_key "ext_services", "social_nets"
+  add_foreign_key "identities", "users"
   add_foreign_key "interests_users", "interests"
   add_foreign_key "interests_users", "users"
   add_foreign_key "social_nets_users", "social_nets"

@@ -14,4 +14,4 @@
   = include_gon
   %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
 
-  = render 'layouts/google_analytics' if extra_config.has_key?('google_analytics_id')
+  = render 'layouts/google_analytics' if extra_config && extra_config.has_key?('google_analytics_id')

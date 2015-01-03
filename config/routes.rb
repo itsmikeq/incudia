@@ -123,13 +123,34 @@
 
 Incudia::Application.routes.draw do
 
-  resources :broadcast_messages
-
   resources :social_nets
+
+  resources :broadcast_messages
 
   resources :social_nets_users
 
-  devise_for :users #, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+
+  resource :profile, only: [:show, :update] do
+    member do
+      get :history
+
+      put :reset_private_token
+      put :update_username
+    end
+    scope module: :profiles do
+      resource :account, only: [:show, :update]
+
+      resource :password, only: [:new, :create, :edit, :update] do
+        member do
+          put :reset
+        end
+      end
+      resources :emails, only: [:index, :create, :destroy]
+    end
+
+  end
+  match "/u/:username" => "users#show", as: :user, constraints: { username: /.*/ }, via: :get
 
   resources :focalpoints
 
@@ -156,7 +177,7 @@ Incudia::Application.routes.draw do
   root "pages#home"    
   get "home", to: "pages#home", as: "home"
   get "inside", to: "pages#inside", as: "inside"
-  
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
       
 
   namespace :admin do

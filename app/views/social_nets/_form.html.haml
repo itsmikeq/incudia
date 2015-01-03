@@ -1,16 +1,9 @@
-= form_for @social_net do |f|
-  - if @social_net.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@social_net.errors.count, "error")} prohibited this social_net from being saved:"
-      %ul
-        - @social_net.errors.full_messages.each do |msg|
-          %li= msg
+= simple_form_for(@social_net) do |f|
+  = f.error_notification
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :auth_api
-    = f.text_field :auth_api
-  .actions
-    = f.submit 'Save'
+  .form-inputs
+    = f.input :name
+    = f.input :api_url
+
+  .form-actions
+    = f.button :submit

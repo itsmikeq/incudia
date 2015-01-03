@@ -68,12 +68,10 @@ Settings.omniauth['providers']  ||= []
 Settings.incudia['default_projects_features']                  ||= {}
 Settings.incudia.default_projects_features['visibility_level'] = Settings.send(:verify_constant, Incudia::VisibilityLevel, Settings.incudia.default_projects_features['visibility_level'], Incudia::VisibilityLevel::PRIVATE)
 
-Settings['extra'] ||= Settingslogic.new({})
+# Settings['incudia']['extra'] ||= Settingslogic.new({})
 
 if Rails.env.test?
-  Settings.incudia['default_projects_limit']   = 42
   Settings.incudia['default_can_create_group'] = true
-  Settings.incudia['default_can_create_team']  = false
 end
 
 

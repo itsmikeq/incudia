@@ -81,8 +81,6 @@ module Incudia
 
       def user_attributes
         {
-            extern_uid:            auth_hash.uid,
-            provider:              auth_hash.provider,
             name:                  auth_hash.name,
             username:              auth_hash.username,
             email:                 auth_hash.email,

@@ -25,6 +25,8 @@
 #  provider               :string
 #  extern_uid             :string
 #  username               :string
+#  name                   :string
+#  visibility_level       :integer
 #
 # Indexes
 #
@@ -35,10 +37,16 @@
 
 class User < ActiveRecord::Base
   include TokenAuthenticatable
+  include Incudia::VisibilityLevel
+
+  TEMP_EMAIL_PREFIX = 'change@me'
+  TEMP_EMAIL_REGEX = /\Achange@me/
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable,
+         :omniauthable
 
   has_many :social_nets_users, dependent: :destroy
   has_many :social_nets, through: :social_nets_users
@@ -46,21 +54,22 @@ class User < ActiveRecord::Base
   has_many :areas, through: :areas_users
   has_many :interests_users
   has_many :interests, through: :interests_users
+  has_many :identities, dependent: :destroy
+  accepts_nested_attributes_for :identities, reject_if: lambda {|attributes| attributes['kind'].blank?}
   # has_many :memberships, ->(user) {where membership: { member_id: user.id}}
   # has_many :owned_memberships, -> { where membership: { access_level: Incudia::Access::OWNER } }, through: :memberships, source: :membership
 
   default_value_for :admin, false
-  # default_value_for :can_create_group, Incudia.config.default_can_create_group
-  validates :extern_uid, allow_blank: true, uniqueness: {scope: :provider}
 
   validates :username, presence: true, uniqueness: {case_sensitive: false},
             exclusion:           {in: Incudia::Blacklist.path},
             format:              {with:    Incudia::Regex.username_regex,
                                   message: Incudia::Regex.username_regex_message}
 
+  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+
   # Virtual attribute for authenticating by either username or email
   attr_accessor :login
-
   # Pagination
   paginates_per 100
 
@@ -70,6 +79,48 @@ class User < ActiveRecord::Base
 
   # Class methods
   class << self
+
+    def find_for_oauth(auth, signed_in_resource = nil)
+
+      # Get the identity and user if they exist
+      identity = Identity.find_for_oauth(auth)
+
+      # If a signed_in_resource is provided it always overrides the existing user
+      # to prevent the identity being locked with accidentally created accounts.
+      # Note that this may leave zombie accounts (with no associated identity) which
+      # can be cleaned up at a later date.
+      user = signed_in_resource ? signed_in_resource : identity.user
+
+      # Create the user if needed
+      if user.nil?
+
+        # Get the existing user by email if the provider gives us a verified email.
+        # If no verified email was provided we assign a temporary email and ask the
+        # user to verify it on the next step via UsersController.finish_signup
+        email_is_verified = auth.info.email && (auth.info.verified || auth.info.verified_email)
+        email = auth.info.email if email_is_verified
+        user = User.where(:email => email).first if email
+
+        # Create the user if it's a new registration
+        if user.nil?
+          user = User.new(
+              name: auth.extra.raw_info.name,
+              #username: auth.info.nickname || auth.uid,
+              email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
+              password: Devise.friendly_token[0,20]
+          )
+          user.skip_confirmation!
+          user.save!
+        end
+      end
+
+      # Associate the identity with the user if needed
+      if identity.user != user
+        identity.user = user
+        identity.save!
+      end
+      user
+    end
     # Devise method overridden to allow sign in with email or username
     def find_for_database_authentication(warden_conditions)
       conditions = warden_conditions.dup
@@ -150,6 +201,10 @@ class User < ActiveRecord::Base
     self
   end
 
+  def email_verified?
+    self.email && self.email !~ TEMP_EMAIL_REGEX
+  end
+
   def generate_password
     if self.force_random_password
       self.password = self.password_confirmation = Devise.friendly_token.first(8)
@@ -165,4 +220,24 @@ class User < ActiveRecord::Base
     @reset_token
   end
 
+  def private_token
+    authentication_token
+  end
+
+  def to_s
+    name
+  end
+
+  def public_profile?
+    visibility_level.nil? || public?
+  end
+
+  def visibility_level_field
+    visibility_level
+  end
+
+  def emails
+    puts "This is a stub - need to create emails association"
+    []
+  end
 end

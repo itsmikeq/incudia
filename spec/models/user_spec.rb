@@ -25,6 +25,8 @@
 #  provider               :string
 #  extern_uid             :string
 #  username               :string
+#  name                   :string
+#  visibility_level       :integer
 #
 # Indexes
 #

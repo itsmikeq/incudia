@@ -4,7 +4,7 @@
   %thead
     %tr
       %th Name
-      %th Auth api
+      %th Api url
       %th
       %th
       %th
@@ -13,7 +13,7 @@
     - @social_nets.each do |social_net|
       %tr
         %td= social_net.name
-        %td= social_net.auth_api
+        %td= social_net.api_url
         %td= link_to 'Show', social_net
         %td= link_to 'Edit', edit_social_net_path(social_net)
         %td= link_to 'Destroy', social_net, :method => :delete, :data => { :confirm => 'Are you sure?' }
