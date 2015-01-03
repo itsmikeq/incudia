@@ -4,6 +4,7 @@ base: &base
     https: false
     protocol: https
     port: 3000
+    user: <%= `whoami`.chomp %>
     allow_username_or_email_login: true
     logfile: <%= "#{Rails.env}.#{`hostname`.chomp}.log" %>
     extra:

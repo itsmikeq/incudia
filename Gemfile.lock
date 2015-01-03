@@ -139,8 +139,6 @@ GEM
     email_validator (1.5.0)
       activemodel
     equalizer (0.0.9)
-    erb2haml (0.1.5)
-      html2haml
     erubis (2.7.0)
     eventmachine (1.0.4)
     execjs (2.2.2)
@@ -515,7 +513,6 @@ DEPENDENCIES
   devise (= 3.4.1)
   devise-async
   email_validator
-  erb2haml
   factory_girl_rails
   ffaker
   figaro (= 1.0.0)

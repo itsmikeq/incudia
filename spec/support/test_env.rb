@@ -1,10 +1,7 @@
 module TestEnv
   extend self
-  config.before(:suite) do
-    TestEnv.init
-  end
   def init(opts = {})
-    RSpec::Mocks::setup(self)
+    RSpec::Mocks::setup
 
     # Disable mailer for spinach tests
     disable_mailer if opts[:mailer] == false

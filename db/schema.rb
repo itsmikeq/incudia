@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102222058) do
+ActiveRecord::Schema.define(version: 20150103015653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,8 +46,22 @@ ActiveRecord::Schema.define(version: 20150102222058) do
 
   create_table "broadcast_messages", force: :cascade do |t|
     t.string   "message"
-    t.datetime "expire_in"
-    t.datetime "start_at"
+    t.datetime "ends_at"
+    t.datetime "starts_at"
+    t.integer  "alert_type"
+    t.string   "color"
+    t.string   "font"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "broadcasts", force: :cascade do |t|
+    t.string   "message"
+    t.datetime "ends_at"
+    t.datetime "starts_at"
+    t.integer  "alert_type"
+    t.string   "color"
+    t.string   "font"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

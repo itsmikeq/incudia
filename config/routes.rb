@@ -123,7 +123,7 @@
 
 Incudia::Application.routes.draw do
 
-  resources :broadcasts
+  resources :broadcast_messages
 
   resources :social_nets
 

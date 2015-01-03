@@ -1,6 +1,6 @@
-class CreateBroadcasts < ActiveRecord::Migration
+class CreateBroadcastMessages < ActiveRecord::Migration
   def change
-    create_table :broadcasts do |t|
+    create_table :broadcast_messages do |t|
       t.string :message
       t.datetime :ends_at
       t.datetime :starts_at

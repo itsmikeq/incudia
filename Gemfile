@@ -92,7 +92,6 @@ group :development, :test do
 
   gem "spring-commands-rspec"
   gem 'spork-rails'
-  gem "erb2haml"
   gem "bundler-audit"
   gem "awesome_print"
   gem "pry-rails"
@@ -102,7 +101,7 @@ group :test do
   gem "capybara-webkit", ">= 1.2.0"
   gem "database_cleaner"
   gem "formulaic"
-  gem "shoulda-matchers", require: false
+  gem "shoulda-matchers"
   gem "timecop"
   gem "webmock"
   gem "launchy"
