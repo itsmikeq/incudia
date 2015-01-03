@@ -1,3 +1,13 @@
 // Place all the styles related to the broadcast_messages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.broadcast-message {
+  padding: 10px;
+  text-align: center;
+  background: #555;
+  color: #BBB;
+}
+.broadcast-message-preview {
+  @extend .broadcast-message;
+  margin-bottom: 20px;
+}

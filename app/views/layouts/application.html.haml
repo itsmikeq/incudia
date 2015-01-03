@@ -1,4 +1,4 @@
-!!!
+!!! 5
 %html
   %head
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
@@ -18,6 +18,8 @@
           .col-sm-6.col-sm-offset-3.text-center
         .row
           .col-sm-12
-            = yield
+            .main
+              .center-block
+                = yield
     = render 'layouts/messages'
     = render 'layouts/footer'
