@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Message:
+  = @broadcast.message
+%p
+  %b Ends at:
+  = @broadcast.ends_at
+%p
+  %b Starts at:
+  = @broadcast.starts_at
+%p
+  %b Alert type:
+  = @broadcast.alert_type
+%p
+  %b Color:
+  = @broadcast.color
+%p
+  %b Font:
+  = @broadcast.font
+
+= link_to 'Edit', edit_broadcast_path(@broadcast)
+\|
+= link_to 'Back', broadcasts_path

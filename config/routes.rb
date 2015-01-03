@@ -123,6 +123,8 @@
 
 Incudia::Application.routes.draw do
 
+  resources :broadcasts
+
   resources :social_nets
 
   resources :social_nets_users
@@ -142,8 +144,6 @@ Incudia::Application.routes.draw do
   resources :memberships
 
   resources :notifications
-
-  resources :broadcast_messages
 
   resources :groups
 

@@ -1,0 +1,31 @@
+%h1 Listing broadcasts
+
+%table
+  %thead
+    %tr
+      %th Message
+      %th Ends at
+      %th Starts at
+      %th Alert type
+      %th Color
+      %th Font
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @broadcasts.each do |broadcast|
+      %tr
+        %td= broadcast.message
+        %td= broadcast.ends_at
+        %td= broadcast.starts_at
+        %td= broadcast.alert_type
+        %td= broadcast.color
+        %td= broadcast.font
+        %td= link_to 'Show', broadcast
+        %td= link_to 'Edit', edit_broadcast_path(broadcast)
+        %td= link_to 'Destroy', broadcast, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Broadcast', new_broadcast_path

@@ -68,9 +68,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "capybara", '~> 2.2.1'
   gem "pry"
-  gem "awesome_print"
-  gem "database_cleaner"
-  gem "launchy"
   gem 'factory_girl_rails'
 
   # Prevent occasions where minitest is not bundled in packaged versions of ruby (see #3826)
@@ -96,7 +93,36 @@ group :development, :test do
   gem "spring-commands-rspec"
   gem 'spork-rails'
   gem "erb2haml"
+  gem "bundler-audit"
+  gem "awesome_print"
+  gem "pry-rails"
 end
+
+group :test do
+  gem "capybara-webkit", ">= 1.2.0"
+  gem "database_cleaner"
+  gem "formulaic"
+  gem "shoulda-matchers", require: false
+  gem "timecop"
+  gem "webmock"
+  gem "launchy"
+
+end
+
+gem "bourbon", "~> 3.2.1"
+gem "delayed_job_active_record"
+gem "email_validator"
+gem "flutie"
+gem "high_voltage"
+gem "i18n-tasks"
+
+gem "neat"
+gem "newrelic_rpm"
+gem "normalize-rails", "~> 3.0.0"
+gem "rack-timeout"
+gem "recipient_interceptor"
+gem "simple_form"
+gem "title"
 
 # PostgreSQL
 gem 'pg'
