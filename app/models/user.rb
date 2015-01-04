@@ -244,4 +244,8 @@ class User < ActiveRecord::Base
     puts "This is a stub - need to create emails association"
     []
   end
+
+  def local_user?
+    provider.nil?
+  end
 end

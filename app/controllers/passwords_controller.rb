@@ -3,7 +3,7 @@ class PasswordsController < Devise::PasswordsController
   def create
     email = resource_params[:email]
     resource_found = resource_class.find_by_email(email)
-    if resource_found && resource_found.ldap_user?
+    if resource_found && !resource_found.local_user?
       flash[:alert] = "Cannot reset password for LDAP user."
       respond_with({}, :location => after_sending_reset_password_instructions_path_for(resource_name)) and return
     end

@@ -21,12 +21,13 @@ class SocialNetsUsersController < ApplicationController
   end
 
   def create
-    @social_nets_user = SocialNetsUser.new(social_nets_user_params)
+    @social_nets_user = SocialNetsUser.new(social_nets_user_params.merge!(user: current_user))
     @social_nets_user.save
     respond_with(@social_nets_user)
   end
 
   def update
+    # TODO: validate user
     @social_nets_user.update(social_nets_user_params)
     respond_with(@social_nets_user)
   end
@@ -42,6 +43,6 @@ class SocialNetsUsersController < ApplicationController
     end
 
     def social_nets_user_params
-      params.require(:social_nets_user).permit(:user_id, :social_net_id)
+      params.require(:social_nets_user).permit(:social_net_id)
     end
 end

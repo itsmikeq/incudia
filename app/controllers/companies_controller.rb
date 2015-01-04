@@ -27,6 +27,7 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    # TODO: Validate owner
     @company.update(company_params)
     respond_with(@company)
   end

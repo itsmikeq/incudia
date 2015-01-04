@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params)
+    @group = Group.new(group_params.merge!(owner: current_user))
     @group.save
     respond_with(@group)
   end

@@ -21,12 +21,13 @@ class InterestsController < ApplicationController
   end
 
   def create
-    @interest = Interest.new(interest_params)
+    @interest = Interest.new(interest_params.merge!(owner: current_user))
     @interest.save
     respond_with(@interest)
   end
 
   def update
+    # TODO: validate user
     @interest.update(interest_params)
     respond_with(@interest)
   end
@@ -42,6 +43,6 @@ class InterestsController < ApplicationController
     end
 
     def interest_params
-      params.require(:interest).permit(:name, :description, :type, :owner_id, :owner_type)
+      params.require(:interest).permit(:name, :description, :type)
     end
 end

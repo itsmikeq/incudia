@@ -23,12 +23,13 @@ class FocalpointsController < ApplicationController
   end
 
   def create
-    @focalpoints = Focalpoint.new(focal_params)
+    @focalpoints = Focalpoint.new(focal_params.merge!(owner: current_user))
     @focalpoints.save
     respond_with(@focalpoints)
   end
 
   def update
+    # TODO: Validate user
     @focalpoints.update(focal_params)
     respond_with(@focalpoints)
   end
