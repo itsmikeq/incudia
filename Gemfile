@@ -16,6 +16,7 @@ gem 'uglifier', '2.6.0'
 gem 'coffee-rails', '4.1.0'
 gem 'jquery-rails', '4.0.2'
 gem 'turbolinks', '2.5.3'
+gem 'jquery-turbolinks'
 gem 'jbuilder', '2.2.6'
 gem 'bcrypt', '3.1.9'
 
@@ -36,8 +37,6 @@ gem 'font-awesome-sass', '4.2.2'
 
 # Bootstrap 3: https://github.com/twbs/bootstrap-sass
 gem 'bootstrap-sass', '3.3.1.0'
-
-gem "bower-rails", "~> 0.9.1"
 
 
 group :development, :test do
@@ -118,7 +117,7 @@ gem "i18n-tasks"
 gem "neat"
 gem "newrelic_rpm"
 gem "normalize-rails", "~> 3.0.0"
-gem "rack-timeout"
+# gem "rack-timeout"
 gem "recipient_interceptor"
 gem "simple_form"
 gem "title"
@@ -174,13 +173,15 @@ gem 'ace-rails-ap'
 
 # Semantic UI Sass for Sidebar
 gem 'semantic-ui-sass', '~> 0.16.1.0'
-gem "therubyracer"
 gem "gon", '~> 5.0.0'
 gem 'request_store'
 gem "virtus"
 
 gem 'bitmask_attributes'
 
+gem "therubyracer"
+gem 'sprockets'
+gem 'select2-rails'
 # Rails 12factor for Heroku: https://github.com/heroku/rails_12factor
 group :production do
   gem 'rails_12factor'

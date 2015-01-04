@@ -1,18 +1,11 @@
 !!! 5
 %html
-  %head
-    %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
-    %title= @title || "Incudia"
-    = favicon_link_tag 'favicon.ico'
-    = favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png'
-    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
-    = javascript_include_tag "application", "data-turbolinks-track" => true
-    = csrf_meta_tags
+  = render "layouts/head", title: interest_head_title
   %body{class: "application", :'data-page' => body_data_page}
     #wrap
       %header
-        = render 'layouts/navigation'
         = render "layouts/broadcast"
+        = render 'layouts/navigation'
       .container
         .row
           .col-sm-6.col-sm-offset-3.text-center

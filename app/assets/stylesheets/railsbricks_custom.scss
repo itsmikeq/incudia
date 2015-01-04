@@ -1,12 +1,22 @@
+// Color picks:
+// http://paletton.com/#uid=72P0E0kgikH6EDTc0qRjQh9nJes
 //***********************************************************
-// BOOTSTRAP VARIABLES OVERRIDES
+/*
+*/
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
 // Color system
-$brand-primary: #6caede;
-$brand-success: #5cb85c;
+//$brand-primary: #6caede;
+$brand-primary: #97AFBC;
+//$brand-success: #5cb85c;
+$brand-success: #6BAB6B;
+//$brand-warning: #f0ad4e;
 $brand-warning: #f0ad4e;
-$brand-danger: #d9534f;
-$brand-info: #5bc0de;
+$brand-danger: #D68686;
+//$brand-info: #5bc0de;
+$brand-info: #ADCEB8;
 
 // Body scaffolding
 $body-bg: #F5F8FA;
@@ -85,7 +95,7 @@ $btn-danger-bg: $brand-danger;
 $btn-danger-border: darken($btn-danger-bg, 5%);
 
 // Form states and alerts
-$state-success-text: #468847; 
+$state-success-text: #303030;
 $state-success-bg: #dff0d8; 
 $state-success-border: darken($state-success-bg, 5%); 
 
@@ -135,9 +145,10 @@ $navbar-border-radius: 0px;
 
 // Navbar: Default navbar
 // -> Basics
-$navbar-default-color: #777777;
+$navbar-default-color: #303030;
 //$navbar-default-bg: #7cc0de;
-$navbar-default-bg: #339CC3;
+//$navbar-default-bg: #789598;
+$navbar-default-bg: #57A6D4;
 $navbar-default-border: darken($navbar-default-bg, 7%);
 // -> Links
 $navbar-default-link-color: #3c3c3c;
@@ -318,7 +329,8 @@ $abbr-border-color: #cccccc; // Abbreviations and acronyms border color
 $headings-small-color: #bbbbbb; // Headings small color
 $blockquote-small-color: #cccccc; // Blockquote small color
 $blockquote-border-color: #eeeeee; // Blockquote border color
-$page-header-border-color: #40e5fc; // Page header border color
+//$page-header-border-color: #40e5fc; // Page header border color
+$page-header-border-color: #E7F3EB; // Page header border color
 
 // Other
 $hr-border: #cccccc; // Horizontal line color
@@ -457,6 +469,14 @@ $main-container-color: #f8f4f9;
       background-color: $main-container-color;
     }
   }
+}
+
+.broadcast-message {
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  background: #555;
+  color: #BBB;
 }
 
 @mixin size($width, $height) {

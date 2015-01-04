@@ -22,6 +22,16 @@
 #
 
 class Focalpoint < ActiveRecord::Base
+  include Incudia::VisibilityLevel
   belongs_to :area, polymorphic: true
   belongs_to :owner, polymorphic: true
+  validates_presence_of :name
+  validates_presence_of :description
+  validates_uniqueness_of :name
+
+  default_value_for :visibility_level, PUBLIC
+
+  def visibility_level_field
+    visibility_level
+  end
 end

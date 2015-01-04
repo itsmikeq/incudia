@@ -1,12 +1,23 @@
-%nav.navbar.navbar-default
-  .container
-    .navbar-header
-      %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      = link_to 'Home', root_path, class: 'navbar-brand'
-    .collapse.navbar-collapse
-      %ul.nav.navbar-nav
-        = render 'layouts/navigation_links'
+%nav
+  .navbar.navbar-default
+    .container-fluid
+      .navbar-header
+        %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        = link_to 'Home', root_path, class: 'navbar-brand'
+      %ul{class: "nav navbar-nav navbar-right"}
+        - unless @current_user
+          %li= link_to "Sign in", new_user_session_path
+          %li= link_to "Sign up", new_user_registration_path
+      - if @current_user
+        .collapse.navbar-collapse
+          %ul.nav.navbar-nav
+            = render 'layouts/navigation_links'
+          %ul.nav.navbar-nav
+            = render 'layouts/profile_links'
+        - if @current_user.admin?
+          %ul.nav.navbar-nav
+            = render 'layouts/admin_nav_links'

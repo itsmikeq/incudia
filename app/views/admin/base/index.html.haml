@@ -1,4 +1,4 @@
-- title("Admin")
+- title(name: "Admin")
 %h1
   Admin
   %small Home
@@ -9,6 +9,10 @@
       = link_to "Users", admin_users_path
       %small
         \- #{"#{pluralize(@count, 'user')}"}
+      %div
+      = link_to "External Services", admin_ext_services_path
+      %small
+        \- #{"#{pluralize(ExtService.count, 'External Service')}"}
     %hr/
   .col-sm-4
     %h3 Last Sign Ups

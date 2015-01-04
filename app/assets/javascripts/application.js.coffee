@@ -13,11 +13,10 @@
 #= require jquery
 #= require jquery_ujs
 #= require turbolinks
-#= require turbolinks
+#= require jquery.turbolinks
+#= require bootstrap-sprockets
 #= require bootstrap
 #= require select2
-#= require underscore
-#= require nprogress
 #= require analytics
 #= require common
 #= require_tree .
@@ -124,8 +123,6 @@ $ ->
   $('.trigger-submit').on 'change', ->
     $(@).parents('form').submit()
 
-  $("abbr.timeago").timeago()
-  $('.js-timeago').timeago()
 
   # Flash
   if (flash = $(".flash-container")).length > 0
@@ -176,4 +173,5 @@ $ ->
 
 )(jQuery)
 
+$('.dropdown-toggle').dropdown()
 
