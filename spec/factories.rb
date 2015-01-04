@@ -1,7 +1,7 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
-  sequence :sentence, aliases: [:title, :content] do
+  sequence :sentence, aliases: [:title, :content, :description] do
     Faker::Lorem.sentence
   end
 
@@ -55,6 +55,19 @@ FactoryGirl.define do
         Faker::Internet.email('another.alias')
       end
     end
+  end
+
+  factory :area do
+    name { Faker::Internet.user_name }
+    description
+    owner { create(:user) }
+  end
+
+  factory :focalpoint do
+    area { create(:area) }
+    owner { create(:user) }
+    name { Faker::Internet.user_name }
+    description
   end
 
 end

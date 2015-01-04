@@ -25,7 +25,23 @@ RSpec.describe Area, :type => :model do
     it 'visibility level' do
       expect(Area.create!(name: "A name", description: "Some stuff", owner: user).visibility_level).to eq(Incudia::VisibilityLevel::PUBLIC)
     end
+  end
 
+  context "with users" do
+    let(:area){ create(:area) }
+    it 'allows for adding users' do
+      user.areas << area
+      expect(user.areas).to include(area)
+    end
+  end
+
+  context "with focal point" do
+    let(:area){ create(:area) }
+    let(:fc){ create(:focalpoint) }
+    it 'allows for adding users' do
+      area.focalpoints << fc
+      expect(area.focalpoints).to include(fc)
+    end
   end
 
 end
