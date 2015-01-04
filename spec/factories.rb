@@ -70,4 +70,11 @@ FactoryGirl.define do
     description
   end
 
+  factory :company do
+    owner { create(:user) }
+    name { Faker::Company.name }
+    description
+    visibility_level Incudia::VisibilityLevel::PUBLIC
+  end
+
 end

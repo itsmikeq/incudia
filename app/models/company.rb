@@ -22,5 +22,6 @@
 
 class Company < Namespace
   belongs_to :owner, polymorphic: true
-
+  # TODO: Add some sort of verification here
+  # Did user work @ company?
 end

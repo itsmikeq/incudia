@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     @companies = Company.all
@@ -21,7 +21,7 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    @company = Company.new(company_params)
+    @company = Company.new(company_params.merge!(owner: current_user))
     @company.save
     respond_with(@company)
   end
@@ -42,6 +42,6 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params[:company]
+      params.require(:company).permit(:name, :description)
     end
 end
