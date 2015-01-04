@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150103064405) do
+ActiveRecord::Schema.define(version: 20150104051036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,8 +112,9 @@ ActiveRecord::Schema.define(version: 20150103064405) do
     t.string   "type"
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "visibility_level"
   end
 
   add_index "interests", ["name"], name: "index_interests_on_name", using: :btree
@@ -188,10 +189,12 @@ ActiveRecord::Schema.define(version: 20150103064405) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "username"
+    t.boolean  "verified"
   end
 
   add_index "social_nets_users", ["social_net_id"], name: "index_social_nets_users_on_social_net_id", using: :btree
   add_index "social_nets_users", ["user_id"], name: "index_social_nets_users_on_user_id", using: :btree
+  add_index "social_nets_users", ["verified"], name: "index_social_nets_users_on_verified", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

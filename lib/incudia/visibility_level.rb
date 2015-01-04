@@ -18,7 +18,7 @@ module Incudia
       end
 
       def allowed_for?(user, level)
-        user.is_admin? || !Incudia.config.incudia.restricted_visibility_levels.include?(level)
+        user.admin? || !Incudia.config.restricted_visibility_levels.include?(level)
       end
     end
 

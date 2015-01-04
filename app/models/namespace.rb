@@ -21,7 +21,14 @@
 #
 
 class Namespace < ActiveRecord::Base
+  include Incudia::VisibilityLevel
   belongs_to :owner, polymorphic: true
+
+  default_value_for :visibility_level, PUBLIC
+  validates_presence_of :name
+  validates_presence_of :description
+  validates_uniqueness_of :name
+  validates_inclusion_of :visibility_level, in: Incudia::VisibilityLevel.values
 
   delegate :name, to: :owner, allow_nil: true, prefix: true
 end

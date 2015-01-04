@@ -1,3 +1,4 @@
+# TODO: Use this class to interact with Areas, Groups, Interests, etc.
 class MembershipsService
   attr_accessor :member, :of, :level
   def initialize(member, of, level)

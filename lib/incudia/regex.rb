@@ -67,7 +67,7 @@ module Incudia
 
     def default_regex_message
       "can contain only letters, digits, '_', '-' and '.'. " \
-      "Cannot start with '-' or end in '.git'" \
+      "Cannot start with '-'" \
     end
 
     def default_regex

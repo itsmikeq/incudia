@@ -17,6 +17,7 @@
 #  index_memberships_on_of_type_and_of_id  (of_type,of_id)
 #
 
+# This class will track all memberships of users->groups->interests and areas
 class Membership < ActiveRecord::Base
   belongs_to :member, polymorphic: true
   belongs_to :of, polymorphic: true

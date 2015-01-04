@@ -1,5 +1,6 @@
 class ExtServicesController < ApplicationController
   before_action :set_ext_service, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_admin!
 
   respond_to :html
 
@@ -37,6 +38,11 @@ class ExtServicesController < ApplicationController
   end
 
   private
+
+    def ensure_admin!
+      render_401 unless @current_user && @current_user.admin?
+    end
+
     def set_ext_service
       @ext_service = ExtService.find(params[:id])
     end
