@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104051036) do
+ActiveRecord::Schema.define(version: 20150104064631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20150104051036) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "visibility_level"
+    t.string   "owner_type"
   end
 
   add_index "areas", ["owner_id"], name: "index_areas_on_owner_id", using: :btree

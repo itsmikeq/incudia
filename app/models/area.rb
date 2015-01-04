@@ -17,12 +17,12 @@
 #
 
 class Area < ActiveRecord::Base
-  includes Incudia::VisibilityLevel
-  belongs_to :owner
+  include Incudia::VisibilityLevel
+  belongs_to :owner, polymorphic: true
   has_many :focalpoints
   validates_presence_of :name
   validates_presence_of :description
-  validates_uniqueness_of :name, scope: [:visibility_level]
+  validates_uniqueness_of :name, scope: [:owner]
   validates_inclusion_of :visibility_level, in: Incudia::VisibilityLevel.values
 
   default_value_for :visibility_level, PUBLIC

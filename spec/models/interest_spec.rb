@@ -7,11 +7,11 @@ RSpec.describe Interest, :type => :model do
   end
   context "errors" do
     it 'raises an error when missing a name' do
-      expect { Interest.create!(name: nil, description: "Some stuff") }.to raise_error()
+      expect { Interest.create!(name: nil, description: "Some stuff", owner: user) }.to raise_error()
     end
 
     it 'raises an error when missing a description' do
-      expect { Interest.create!(name: "Some name", description: nil) }.to raise_error()
+      expect { Interest.create!(name: "Some name", description: nil, owner: user) }.to raise_error()
     end
 
     it 'raises an error when missing a description' do
