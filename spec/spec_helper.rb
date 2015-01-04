@@ -58,6 +58,7 @@ RSpec.configure do |config|
   # config.include Devise::TestHelpers, type: :controller
   config.include FactoryGirl::Syntax::Methods
   config.include TestEnv
+  config.include Devise::TestHelpers, type: :controller
   config.before(:suite) do
     TestEnv.init
   end
