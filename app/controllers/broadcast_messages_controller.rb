@@ -1,7 +1,7 @@
 class BroadcastMessagesController < ApplicationController
   before_action :set_broadcast_message, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     @broadcast_messages = BroadcastMessage.all
@@ -22,8 +22,16 @@ class BroadcastMessagesController < ApplicationController
 
   def create
     @broadcast_message = BroadcastMessage.new(broadcast_message_params)
-    @broadcast_message.save
-    respond_with(@broadcast_message)
+    respond_with(@broadcast_message) do |format|
+      if @broadcast_message.save
+        format.json { render head: :ok, status: :created }
+        format.html{ render @broadcast_message, status: 201}
+      else
+        flash[:error] = @broadcast_message.errors.to_s
+        format.html { render :action => :new }
+      end
+    end
+
   end
 
   def update
@@ -37,11 +45,11 @@ class BroadcastMessagesController < ApplicationController
   end
 
   private
-    def set_broadcast_message
-      @broadcast_message = BroadcastMessage.find(params[:id])
-    end
+  def set_broadcast_message
+    @broadcast_message = BroadcastMessage.find(params[:id])
+  end
 
-    def broadcast_message_params
-      params.require(:broadcast_message).permit(:message, :ends_at, :starts_at, :alert_type, :color, :font)
-    end
+  def broadcast_message_params
+    params.require(:broadcast_message).permit(:message, :ends_at, :starts_at, :alert_type, :color, :font)
+  end
 end

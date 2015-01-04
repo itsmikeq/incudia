@@ -149,4 +149,26 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # JSON for infinite scroll via Pager object
+  def pager_json(partial, count)
+    html = render_to_string(
+        partial,
+        layout: false,
+        formats: [:html]
+    )
+
+    render json: {
+               html: html,
+               count: count
+           }
+  end
+
+  def view_to_html_string(partial)
+    render_to_string(
+        partial,
+        layout: false,
+        formats: [:html]
+    )
+  end
+
 end
