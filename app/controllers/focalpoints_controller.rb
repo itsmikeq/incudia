@@ -49,9 +49,4 @@ class FocalpointsController < ApplicationController
       params.require(:focalpoints).permit(:area_id, :area_type, :name, :description, :owner_id, :owner_type, :visibility_level)
     end
 
-  def ensure_logged_in
-    if @current_user.nil?
-      redirect_to
-    end
-  end
 end

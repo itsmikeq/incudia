@@ -2,7 +2,7 @@ Incudia::Seeder.quiet do
   (1..10).each do
     Focalpoint.seed do |c|
       c.name        = "#{Faker::Company.name} Focal Point"
-      c.description = Faker::HipsterIpsum.words(10)
+      c.description = Faker::HipsterIpsum.words(10).join("\s")
       c.owner       = User.order("RANDOM()").first
       c.area        = Area.order("RANDOM()").first
     end

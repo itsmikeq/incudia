@@ -2,7 +2,7 @@ Incudia::Seeder.quiet do
   (1..10).each do
     Area.seed do |c|
       c.name        = "#{Faker::Company.name} Area"
-      c.description = Faker::HipsterIpsum.words(10)
+      c.description = Faker::HipsterIpsum.words(10).join("\s")
       c.owner       = User.order("RANDOM()").first
     end
   end

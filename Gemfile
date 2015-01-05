@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 ruby '2.1.5'
 
 def darwin_only(require_as)
@@ -15,6 +16,7 @@ gem 'sass-rails', '5.0.0'
 gem 'uglifier', '2.6.0'
 gem 'coffee-rails', '4.1.0'
 gem 'jquery-rails', '4.0.2'
+gem 'autoprefixer-rails'
 gem 'turbolinks', '2.5.3'
 gem 'jquery-turbolinks'
 gem 'jbuilder', '2.2.6'
@@ -192,3 +194,8 @@ end
 group :production do
   gem 'unicorn'
 end
+
+gem 'rails-assets-bootstrap-social'
+gem 'rails-assets-bootstrap-sass-official'
+gem 'rails-assets-select2'
+gem 'rails-assets-font-awesome'
