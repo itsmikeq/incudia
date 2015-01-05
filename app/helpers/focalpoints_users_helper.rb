@@ -1,0 +1,2 @@
+module FocalpointsUsersHelper
+end

@@ -1,4 +1,5 @@
 class FocalpointsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_focal, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_logged_in, only: [:new, :create, :edit, :update]
   before_filter :ensure_owner, only: [:destroy]

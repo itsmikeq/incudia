@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -21,7 +22,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params.merge!(owner: current_user))
+    @group = Group.new(group_params)
     @group.save
     respond_with(@group)
   end
@@ -42,6 +43,6 @@ class GroupsController < ApplicationController
     end
 
     def group_params
-      params[:group]
+      params.require(:group).permit(:name, :description, :owner_id, :owner_type, :visibility_level)
     end
 end

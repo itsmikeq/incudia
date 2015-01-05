@@ -25,6 +25,8 @@ class Focalpoint < ActiveRecord::Base
   include Incudia::VisibilityLevel
   belongs_to :area, polymorphic: true
   belongs_to :owner, polymorphic: true
+  has_many :focalpoints_users, dependent: :destroy
+  has_many :users, through: :focalpoints_users
   validates_presence_of :name
   validates_presence_of :description
   validates_uniqueness_of :name, scope: [:visibility_level]

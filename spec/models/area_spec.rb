@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: areas
+#
+#  id               :integer          not null, primary key
+#  name             :string
+#  description      :string
+#  owner_id         :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  visibility_level :integer
+#  owner_type       :string
+#
+# Indexes
+#
+#  index_areas_on_owner_id          (owner_id)
+#  index_areas_on_visibility_level  (visibility_level)
+#
+
 require 'rails_helper'
 
 RSpec.describe Area, :type => :model do

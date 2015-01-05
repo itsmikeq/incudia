@@ -19,7 +19,12 @@
 #  index_notifications_on_type                   (type)
 #
 
+# This class should be subclassed to things like SMS or InstantMessage
 class Notification < ActiveRecord::Base
   belongs_to :from, polymorphic: true
   belongs_to :to, polymorphic: true
+  def initialize(**params)
+    raise "Dont use the base class!" if self.class.name == "Notification"
+    super
+  end
 end

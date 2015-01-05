@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104064631) do
+ActiveRecord::Schema.define(version: 20150105041352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,9 +40,11 @@ ActiveRecord::Schema.define(version: 20150104064631) do
     t.integer  "area_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "role"
   end
 
   add_index "areas_users", ["area_id"], name: "index_areas_users_on_area_id", using: :btree
+  add_index "areas_users", ["role"], name: "index_areas_users_on_role", using: :btree
   add_index "areas_users", ["user_id"], name: "index_areas_users_on_user_id", using: :btree
 
   create_table "broadcast_messages", force: :cascade do |t|
@@ -55,6 +57,15 @@ ActiveRecord::Schema.define(version: 20150104064631) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "emails", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "emails", ["user_id"], name: "index_emails_on_user_id", using: :btree
 
   create_table "ext_services", force: :cascade do |t|
     t.integer  "social_net_id"
@@ -84,6 +95,17 @@ ActiveRecord::Schema.define(version: 20150104064631) do
   add_index "focalpoints", ["owner_type", "owner_id"], name: "index_focalpoints_on_owner_type_and_owner_id", using: :btree
   add_index "focalpoints", ["visibility_level"], name: "index_focalpoints_on_visibility_level", using: :btree
 
+  create_table "focalpoints_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "focalpoint_id"
+    t.integer  "role"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "focalpoints_users", ["focalpoint_id"], name: "index_focalpoints_users_on_focalpoint_id", using: :btree
+  add_index "focalpoints_users", ["user_id"], name: "index_focalpoints_users_on_user_id", using: :btree
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -96,6 +118,18 @@ ActiveRecord::Schema.define(version: 20150104064631) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "visibility_level"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "groups", ["owner_type", "owner_id"], name: "index_groups_on_owner_type_and_owner_id", using: :btree
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"
@@ -127,23 +161,26 @@ ActiveRecord::Schema.define(version: 20150104064631) do
     t.integer  "interest_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "role"
   end
 
   add_index "interests_users", ["interest_id"], name: "index_interests_users_on_interest_id", using: :btree
+  add_index "interests_users", ["role"], name: "index_interests_users_on_role", using: :btree
   add_index "interests_users", ["user_id"], name: "index_interests_users_on_user_id", using: :btree
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "member_id"
+    t.string   "member_type"
     t.integer  "of_id"
     t.string   "of_type"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "access_level"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "role"
   end
 
-  add_index "memberships", ["access_level"], name: "index_memberships_on_access_level", using: :btree
-  add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", using: :btree
+  add_index "memberships", ["member_type", "member_id"], name: "index_memberships_on_member_type_and_member_id", using: :btree
   add_index "memberships", ["of_type", "of_id"], name: "index_memberships_on_of_type_and_of_id", using: :btree
+  add_index "memberships", ["role"], name: "index_memberships_on_role", using: :btree
 
   create_table "namespaces", force: :cascade do |t|
     t.string   "name"
@@ -214,6 +251,7 @@ ActiveRecord::Schema.define(version: 20150104064631) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "authentication_token"
@@ -230,7 +268,10 @@ ActiveRecord::Schema.define(version: 20150104064631) do
 
   add_foreign_key "areas_users", "areas"
   add_foreign_key "areas_users", "users"
+  add_foreign_key "emails", "users"
   add_foreign_key "ext_services", "social_nets"
+  add_foreign_key "focalpoints_users", "focalpoints"
+  add_foreign_key "focalpoints_users", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "interests_users", "interests"
   add_foreign_key "interests_users", "users"

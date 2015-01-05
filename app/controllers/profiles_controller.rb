@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
-
+  before_action :authenticate_user!
   before_filter :user
   skip_before_filter :require_email, only: [:show, :update]
 

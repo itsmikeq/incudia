@@ -19,6 +19,7 @@
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
 #  unconfirmed_email      :string
+#  state                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
 #  authentication_token   :string
@@ -52,14 +53,21 @@ class User < ActiveRecord::Base
   has_many :social_nets, through: :social_nets_users
   has_many :areas_users, dependent: :destroy
   has_many :areas, through: :areas_users
-  has_many :interests_users
+  has_many :focalpoints_users, dependent: :destroy
+  has_many :focalpoints, through: :focalpoints_users
+  has_many :interests_users, dependent: :destroy
   has_many :interests, through: :interests_users
   has_many :identities, dependent: :destroy
+  has_many :memberships, as: :member # This is wonky but works, returns 0 but will return for groups
+  has_many :groups, through: :memberships, source: "of", source_type: "Group"
+  has_many :emails
   accepts_nested_attributes_for :identities, reject_if: lambda { |attributes| attributes['kind'].blank? }
   # has_many :memberships, ->(user) {where membership: { member_id: user.id}}
   # has_many :owned_memberships, -> { where membership: { access_level: Incudia::Access::OWNER } }, through: :memberships, source: :membership
 
   default_value_for :admin, false
+  default_value_for :visibility_level, PUBLIC
+  default_value_for :state, :active
 
   # Validations
   validates :username, presence: true, uniqueness: {case_sensitive: false},
@@ -73,12 +81,45 @@ class User < ActiveRecord::Base
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
   scope :admins, -> { where(admin: true) }
+  scope :blocked, -> { with_state(:blocked) }
+  scope :active, -> { with_state(:active) }
+
+  before_save :ensure_authentication_token
 
   # Virtual attribute for authenticating by either username or email
   attr_accessor :login
+  alias_attribute :private_token, :authentication_token
+
   # Pagination
   paginates_per 100
 
+  state_machine :state, initial: :active do
+    after_transition any => :blocked do |user, transition|
+      # Remove user from all memberships and
+      user.groups.each do |membership|
+        # skip owned resources
+        next if membership.access_level == Incudia::Role::LEVELS[:owner]
+
+        return false unless membership.destroy
+      end
+
+      # Remove user from all groups
+      user.areas.each do |membership|
+        # skip owned resources
+        next if membership.role == Incudia::Role::LEVELS[:owner]
+
+        return false unless membership.destroy
+      end
+    end
+
+    event :block do
+      transition active: :blocked
+    end
+
+    event :activate do
+      transition any: :active
+    end
+  end
 
   # Class methods
   class << self

@@ -1,0 +1,25 @@
+%h1 Listing focalpoints_users
+
+%table
+  %thead
+    %tr
+      %th User
+      %th Focalpoint
+      %th Access level
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @focalpoints_users.each do |focalpoints_user|
+      %tr
+        %td= focalpoints_user.user
+        %td= focalpoints_user.focalpoint
+        %td= focalpoints_user.access_level
+        %td= link_to 'Show', focalpoints_user
+        %td= link_to 'Edit', edit_focalpoints_user_path(focalpoints_user)
+        %td= link_to 'Destroy', focalpoints_user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Focalpoints user', new_focalpoints_user_path

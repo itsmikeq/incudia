@@ -17,7 +17,7 @@ RSpec.describe BroadcastMessagesController, :type => :controller do
       it 'renders the page with a logged in user' do
         sign_in(user)
         get :index
-        expect(response).to be_success
+        expect(response.status).to eq(200)
       end
 
     end

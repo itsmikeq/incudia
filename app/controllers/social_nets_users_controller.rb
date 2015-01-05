@@ -1,4 +1,5 @@
 class SocialNetsUsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_social_nets_user, only: [:show, :edit, :update, :destroy]
 
   respond_to :html

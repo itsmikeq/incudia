@@ -2,14 +2,15 @@
 #
 # Table name: interests
 #
-#  id          :integer          not null, primary key
-#  name        :string
-#  description :string
-#  type        :string
-#  owner_id    :integer
-#  owner_type  :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id               :integer          not null, primary key
+#  name             :string
+#  description      :string
+#  type             :string
+#  owner_id         :integer
+#  owner_type       :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  visibility_level :integer
 #
 # Indexes
 #
@@ -19,8 +20,11 @@
 #
 
 class Interest < ActiveRecord::Base
-  include Incudia::VisibilityLevel
+  # TODO: Wedge in some intelligence for assigning a new user when the owner is deleted
+include Incudia::VisibilityLevel
   belongs_to :owner, polymorphic: true
+  has_many :interests_users, dependent: :destroy
+  has_many :users, through: :interests_users
   validates_presence_of :name
   validates_presence_of :description
   validates_presence_of :owner

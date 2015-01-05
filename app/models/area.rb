@@ -9,6 +9,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  visibility_level :integer
+#  owner_type       :string
 #
 # Indexes
 #
@@ -17,8 +18,11 @@
 #
 
 class Area < ActiveRecord::Base
-  include Incudia::VisibilityLevel
+  # TODO: Wedge in some intelligence for assigning a new user when the owner is deleted
+include Incudia::VisibilityLevel
   belongs_to :owner, polymorphic: true
+  has_many :areas_users, dependent: :destroy
+  has_many :users, through: :areas_users
   has_many :focalpoints
   validates_presence_of :name
   validates_presence_of :description
@@ -26,6 +30,8 @@ class Area < ActiveRecord::Base
   validates_inclusion_of :visibility_level, in: Incudia::VisibilityLevel.values
 
   default_value_for :visibility_level, PUBLIC
+
+  scope :without_focalpoints, ->{ where("id not in (?)", Focalpoint.pluck(:area_id))}
 
   def visibility_level_field
     visibility_level

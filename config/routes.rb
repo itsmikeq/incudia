@@ -123,6 +123,10 @@
 
 Incudia::Application.routes.draw do
 
+  resources :emails
+
+  resources :focalpoints_users
+
   resources :social_nets
 
   resources :broadcast_messages

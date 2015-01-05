@@ -24,9 +24,9 @@ FactoryGirl.define do
       admin true
     end
 
-    trait :ldap do
-      provider 'ldapmain'
-      extern_uid 'my-ldap-id'
+    trait :facebook do
+      provider 'facebook'
+      extern_uid 'facebook_user'
     end
 
     factory :admin, traits: [:admin]
@@ -34,14 +34,7 @@ FactoryGirl.define do
 
   factory :group do
     sequence(:name) { |n| "group#{n}" }
-    path { name.downcase.gsub(/\s/, '_') }
-    type 'Group'
-  end
-
-  factory :namespace do
-    sequence(:name) { |n| "namespace#{n}" }
-    path { name.downcase.gsub(/\s/, '_') }
-    owner
+    description "Some description"
   end
 
   factory :email do

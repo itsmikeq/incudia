@@ -1,10 +1,11 @@
-= form_for @group do |f|
-  - if @group.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@group.errors.count, "error")} prohibited this group from being saved:"
-      %ul
-        - @group.errors.full_messages.each do |msg|
-          %li= msg
+= simple_form_for(@group) do |f|
+  = f.error_notification
 
-  .actions
-    = f.submit 'Save'
+  .form-inputs
+    = f.input :name
+    = f.input :description
+    = f.association :owner
+    = f.input :visibility_level
+
+  .form-actions
+    = f.button :submit

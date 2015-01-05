@@ -182,6 +182,7 @@ gem 'bitmask_attributes'
 gem "therubyracer"
 gem 'sprockets'
 gem 'select2-rails'
+gem 'state_machine'
 # Rails 12factor for Heroku: https://github.com/heroku/rails_12factor
 group :production do
   gem 'rails_12factor'

@@ -19,12 +19,12 @@ describe Incudia::OAuth::User do
 
     it "finds an existing user based on uid and provider (facebook)" do
       auth = double(info: double(name: 'John'), uid: 'my-uid', provider: 'my-provider')
-      expect( oauth_user.persisted? ).to be_true
+      expect( oauth_user.persisted? ).to be_truthy
     end
 
     it "returns false if use is not found in database" do
       auth_hash.stub(uid: 'non-existing')
-      expect( oauth_user.persisted? ).to be_false
+      expect( oauth_user.persisted? ).to be_falsey
     end
   end
 

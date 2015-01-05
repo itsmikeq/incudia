@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @focalpoints_user.user
+%p
+  %b Focalpoint:
+  = @focalpoints_user.focalpoint
+%p
+  %b Access level:
+  = @focalpoints_user.access_level
+
+= link_to 'Edit', edit_focalpoints_user_path(@focalpoints_user)
+\|
+= link_to 'Back', focalpoints_users_path

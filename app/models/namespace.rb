@@ -20,6 +20,7 @@
 #  index_namespaces_on_visibility_level         (visibility_level)
 #
 
+# This is to be subclassed into useful things like Group
 class Namespace < ActiveRecord::Base
   include Incudia::VisibilityLevel
   belongs_to :owner, polymorphic: true
@@ -30,5 +31,12 @@ class Namespace < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_inclusion_of :visibility_level, in: Incudia::VisibilityLevel.values
 
+  default_value_for :visibility_level, PUBLIC
   delegate :name, to: :owner, allow_nil: true, prefix: true
+
+  def initialize(**params)
+    raise "Dont use the base class!" if self.class.name == "Namespace"
+    super
+  end
+
 end

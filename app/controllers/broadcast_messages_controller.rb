@@ -1,4 +1,5 @@
 class BroadcastMessagesController < ApplicationController
+  before_action :require_admin!
   before_action :set_broadcast_message, only: [:show, :edit, :update, :destroy]
 
   respond_to :html, :json
