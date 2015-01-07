@@ -13,8 +13,20 @@ module ApplicationHelper
     Digest::SHA1.hexdigest string
   end
 
+  # def authbutton(provider, size = 64)
+  #   # image_tag('', alt: "Sign in with #{provider.to_s.titleize}", class: "btn btn-block btn-social btn-#{provider.to_s}")
+  #   link_to(omniauth_authorize_path(User, provider), class: "btn btn-block btn-social btn-#{provider}") do
+  #     image_tag(" Sign in with #{provider}", class: "fa fa-#{provider}")
+  #   end
+  #
+  # end
+
   def authbutton(provider, size = 64)
-    image_tag('', alt: "Sign in with #{provider.to_s.titleize}", class: "btn btn-block btn-social btn-#{provider.to_s}")
+    # image_tag('', alt: "Sign in with #{provider.to_s.titleize}", class: "btn btn-block btn-social btn-#{provider.to_s}")
+    link_to(omniauth_authorize_path(User, provider), class: "btn btn-block btn-social btn-#{provider} fa fa-#{provider}") do
+      image_tag(" ", class: "fa fa-#{provider}")
+    end
+
   end
 
   def time_ago_with_tooltip(date, placement = 'top', html_class = 'time_ago')
