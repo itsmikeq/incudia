@@ -133,8 +133,11 @@ Incudia::Application.routes.draw do
 
   resources :social_nets_users
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
-
+  # devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :users, :controllers => { omniauth_callbacks: :omniauth_callbacks, registrations: :registrations , passwords: :passwords, sessions: :sessions, confirmations: :confirmations }
+  devise_scope :user do
+    get "/users/auth/:provider/omniauth_error" => "omniauth_callbacks#omniauth_error", as: :omniauth_error
+  end
   resource :profile, only: [:show, :update] do
     member do
       get :history

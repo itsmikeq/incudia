@@ -17,6 +17,9 @@ describe Incudia::OAuth::User do
   describe :persisted? do
     let!(:existing_user) { create(:user, extern_uid: 'my-uid', provider: 'my-provider') }
 
+    before { Incudia.config.omniauth.stub allow_single_sign_on: true }
+    before { Incudia.config.omniauth.stub block_auto_created_users: false }
+
     it "finds an existing user based on uid and provider (facebook)" do
       auth = double(info: double(name: 'John'), uid: 'my-uid', provider: 'my-provider')
       expect( oauth_user.persisted? ).to be_truthy
@@ -39,16 +42,12 @@ describe Incudia::OAuth::User do
           oauth_user.save
 
           expect(ic_user).to be_valid
+          puts "Extern UID: #{ic_user.inspect}"
           expect(ic_user.extern_uid).to eql uid
           expect(ic_user.provider).to eql 'twitter'
         end
       end
 
-      context "with allow_single_sign_on disabled (Default)" do
-        it "throws an error" do
-          expect{ oauth_user.save }.to raise_error StandardError
-        end
-      end
     end
 
     describe 'blocking' do

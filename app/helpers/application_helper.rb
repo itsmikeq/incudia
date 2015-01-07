@@ -17,6 +17,17 @@ module ApplicationHelper
     image_tag('', alt: "Sign in with #{provider.to_s.titleize}", class: "btn btn-block btn-social btn-#{provider.to_s}")
   end
 
+  def time_ago_with_tooltip(date, placement = 'top', html_class = 'time_ago')
+    capture_haml do
+      haml_tag :time, date.to_s,
+               class: html_class, datetime: date.getutc.iso8601, title: date.stamp("Aug 21, 2011 9:23pm"),
+               data: { toggle: 'tooltip', placement: placement }
+
+      haml_tag :script, "$('." + html_class + "').timeago().tooltip()"
+    end.html_safe
+  end
+
+
   def broadcast_message
     BroadcastMessage.current
   end

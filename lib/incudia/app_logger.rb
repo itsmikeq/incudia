@@ -1,11 +1,8 @@
 module Incudia
-  class AppLogger < Incudia::Logger
-    def self.file_name_noext
-      'application'
+  class AppLogger < ::Incudia::Logger
+    def self.filename
+      'application.log'
     end
 
-    def format_message(severity, timestamp, progname, msg)
-      "#{timestamp.to_s(:long)}: #{msg}\n"
-    end
   end
 end

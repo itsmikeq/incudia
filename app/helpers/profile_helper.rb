@@ -10,7 +10,7 @@ module ProfileHelper
   end
 
   def show_profile_social_tab?
-    enabled_social_providers.any? && !current_user.ldap_user?
+    enabled_social_providers.any?
   end
 
   def show_profile_remove_tab?

@@ -25,16 +25,18 @@ module Incudia
       end
 
       def save
-        unauthorized_to_create unless ic_user
+        raise_unauthorized_to_create unless ic_user
 
         if needs_blocking?
           ic_user.save!
           ic_user.block
         else
+          ic_user.skip_confirmation! if ic_user.respond_to?(:skip_confirmation)
           ic_user.save!
         end
 
         log.info "(OAuth) saving user #{auth_hash.email} from login with extern_uid => #{auth_hash.uid}"
+        log.info "User: #{ic_user.inspect}"
         ic_user
       rescue ActiveRecord::RecordInvalid => e
         log.info "(OAuth) Error saving user: #{ic_user.errors.full_messages}"
@@ -42,16 +44,69 @@ module Incudia
       end
 
       def ic_user
-        @user ||= find_by_uid_and_provider
-
-        if signup_enabled?
-          @user ||= build_new_user
-        end
-
-        @user
+        @user ||= find_for_oauth
       end
 
       protected
+
+      def find_for_oauth(signed_in_resource = nil)
+
+        # Get the identity and user if they exist
+        identity = Identity.find_for_oauth(auth_hash)
+
+        # If a signed_in_resource is provided it always overrides the existing user
+        # to prevent the identity being locked with accidentally created accounts.
+        # Note that this may leave zombie accounts (with no associated identity) which
+        # can be cleaned up at a later date.
+        user     = signed_in_resource ? signed_in_resource : identity.user
+
+        # Create the user if needed
+        if user.nil?
+
+          # Get the existing user by email if the provider gives us a verified email.
+          # If no verified email was provided we assign a temporary email and ask the
+          # user to verify it on the next step via UsersController.finish_signup
+          email = auth_hash.info.email
+          user              =  if email
+                                 model.where(:email => email).first || Email.where(:email => auth_hash.email).first.try(:user)
+                               end
+
+          # Create the user if it's a new registration
+          if user.nil?
+            user = build_new_user
+            user.save!
+          end
+        end
+
+        # Associate the identity with the user if needed
+        if identity.user != user
+          identity.user = user
+          identity.save!
+        end
+
+        # Associate email to user to identity
+        unless user.emails.pluck(:email).include?(auth_hash.email)
+          user.emails.create(email: auth_hash.email)
+        end
+        user
+      end
+
+      def build_new_user
+        model.new(user_attributes).tap do |user|
+          user.skip_confirmation!
+        end
+      end
+
+      def user_attributes
+        _tmp_passwd = Devise.friendly_token[0, 20]
+        {
+            name:                  auth_hash.name,
+            username:              (auth_hash.username || auth_hash.nickname || auth_hash.uid).gsub(/\s/,'').downcase,
+            email:                 auth_hash.email,
+            password:              auth_hash.password || _tmp_passwd,
+            password_confirmation: auth_hash.password || _tmp_passwd,
+        }
+      end
 
       def needs_blocking?
         new? && block_after_signup?
@@ -67,26 +122,6 @@ module Incudia
 
       def auth_hash=(auth_hash)
         @auth_hash = AuthHash.new(auth_hash)
-      end
-
-      def find_by_uid_and_provider
-        model.where(provider: auth_hash.provider, extern_uid: auth_hash.uid).last
-      end
-
-      def build_new_user
-        model.new(user_attributes).tap do |user|
-          user.skip_confirmation!
-        end
-      end
-
-      def user_attributes
-        {
-            name:                  auth_hash.name,
-            username:              auth_hash.username,
-            email:                 auth_hash.email,
-            password:              auth_hash.password,
-            password_confirmation: auth_hash.password,
-        }
       end
 
       def log

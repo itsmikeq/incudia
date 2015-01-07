@@ -1,24 +1,7 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
-  # def self.provides_callback_for(provider)
-  #   class_eval %Q{
-  #     def #{provider}
-  #       @user = User.find_for_oauth(env["omniauth.auth"], current_user)
-  #
-  #       if @user.persisted?
-  #         sign_in_and_redirect @user, event: :authentication
-  #         set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
-  #       else
-  #         session["devise.#{provider}_data"] = env["omniauth.auth"]
-  #         redirect_to new_user_registration_url
-  #       end
-  #     end
-  #   }
-  # end
-
   Incudia.config.omniauth.providers.each do |provider|
     define_method provider['name'] do
-      # self.class.provides_callback_for provider["name"]
       handle_omniauth
     end
   end
@@ -52,27 +35,16 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def handle_omniauth
     if current_user
-      # Change a logged-in user's authentication method:
-      current_user.identities.create(provider: oauth['provider'], uid: oauth['uid'])
-      current_user.extern_uid = oauth['uid']
-      current_user.provider   = oauth['provider']
-      current_user.save
-
+      update_identities(current_user)
       redirect_to profile_path
     else
-      puts "Oath: #{oauth.inspect}"
+      log.debug "Oath: #{oauth.inspect}"
       @user = Incudia::OAuth::User.new(oauth)
       @user.save
-      unless @user.ic_user.identities.find_by(provider: oauth['provider'], uid: oauth['uid'])
-        @user.ic_user.extern_uid = oauth['uid']
-        @user.ic_user.provider   = oauth['provider']
-        @user.ic_user.save
-        # We've authenticated with this account.
-        @user.ic_user.identities.create!(provider: oauth['provider'], uid: oauth['uid'])
-      end
-
+      # @current_user = @user.ic_user
       # Only allow properly saved users to login.
       if @user.persisted? && @user.valid?
+        # update_identities(@user.ic_user)
         sign_in_and_redirect(@user.ic_user)
       else
         error_message =
@@ -83,17 +55,29 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
             else
               ''
             end
-
+        log.warn "#{oauth['provider']} Error: #{error_message}"
         redirect_to omniauth_error_path(oauth['provider'], error: error_message) and return
       end
     end
   rescue StandardError => e
-    Rails.logger.error e.message
+    log.error "Error: #{e.message}"
     flash[:notice] = "There's no such user!"
     redirect_to new_user_session_path
+  end
+
+  def update_identities(ic_user)
+    puts "Updating identities"
+    unless ic_user.identities.find_by(provider: oauth['provider'], uid: oauth['uid']).any?
+      ic_user.create(provider: oauth['provider'], uid: oauth['uid'], user: @user.ic_user)
+    end
   end
 
   def oauth
     @oauth ||= request.env['omniauth.auth']
   end
+
+  def log
+    Incudia::OAuthLogger
+  end
+
 end

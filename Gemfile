@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-source 'https://rails-assets.org'
+# source 'https://rails-assets.org'
 ruby '2.1.5'
 
 def darwin_only(require_as)
@@ -133,10 +133,13 @@ gem 'devise', '3.4.1'
 gem "devise-async"
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-linkedin'
+# gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 gem 'omniauth-facebook'
 
+gem "stamp" # timestamp
 
 gem 'rack-cors', require: 'rack/cors'
 
