@@ -1,6 +1,7 @@
 class CompaniesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_owner, only: [:destroy]
 
   respond_to :html, :json
 
@@ -39,6 +40,9 @@ class CompaniesController < ApplicationController
   end
 
   private
+  def ensure_owner
+    current_user.companies.include? @focalpoint
+  end
     def set_company
       @company = Company.find(params[:id])
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150107041324) do
+ActiveRecord::Schema.define(version: 20150108050706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,16 @@ ActiveRecord::Schema.define(version: 20150107041324) do
   end
 
   add_index "emails", ["user_id"], name: "index_emails_on_user_id", using: :btree
+
+  create_table "embedded_contents", force: :cascade do |t|
+    t.string   "url"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "embedded_contents", ["owner_type", "owner_id"], name: "index_embedded_contents_on_owner_type_and_owner_id", using: :btree
 
   create_table "ext_services", force: :cascade do |t|
     t.integer  "social_net_id"

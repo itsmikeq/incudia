@@ -59,6 +59,8 @@ class User < ActiveRecord::Base
   has_many :interests, through: :interests_users
   has_many :memberships, as: :member # This is wonky but works, returns 0 but will return for groups
   has_many :groups, through: :memberships, source: "of", source_type: "Group"
+  has_many :companies, as: :owner
+  has_many :embedded_contents, as: :owner # This is wonky but works, returns 0 but will return for groups
 
   # Identity-related
   has_many :identities, dependent: :destroy

@@ -134,10 +134,10 @@ gem "devise-async"
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-linkedin'
-# gem 'omniauth-linkedin-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 gem 'omniauth-facebook'
+gem 'jquery-oembed-rails'
 
 gem "stamp" # timestamp
 

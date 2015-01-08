@@ -1,0 +1,25 @@
+%h1 Listing embedded_contents
+
+%table
+  %thead
+    %tr
+      %th Url
+      %th Owner
+      %th Owner type
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @embedded_contents.each do |embedded_content|
+      %tr
+        %td= embedded_content.url
+        %td= embedded_content.owner
+        %td= embedded_content.owner_type
+        %td= link_to 'Show', embedded_content
+        %td= link_to 'Edit', edit_embedded_content_path(embedded_content)
+        %td= link_to 'Destroy', embedded_content, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Embedded content', new_embedded_content_path

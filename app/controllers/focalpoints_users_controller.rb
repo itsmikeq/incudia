@@ -4,6 +4,9 @@ class FocalpointsUsersController < ApplicationController
 
   respond_to :html
 
+  # TODO: put in some permissions here on who can access what
+  # Permissions levels on focalpoints
+
   def index
     @focalpoints_users = FocalpointsUser.all
     respond_with(@focalpoints_users)

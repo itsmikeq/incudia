@@ -123,6 +123,8 @@
 
 Incudia::Application.routes.draw do
 
+  resources :embedded_contents
+
   resources :emails
 
   resources :focalpoints_users

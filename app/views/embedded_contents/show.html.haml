@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Url:
+  = @embedded_content.url
+%p
+  %b Owner:
+  = @embedded_content.owner
+%p
+  %b Owner type:
+  = @embedded_content.owner_type
+
+= link_to 'Edit', edit_embedded_content_path(@embedded_content)
+\|
+= link_to 'Back', embedded_contents_path

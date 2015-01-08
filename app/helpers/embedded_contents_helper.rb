@@ -1,0 +1,2 @@
+module EmbeddedContentsHelper
+end

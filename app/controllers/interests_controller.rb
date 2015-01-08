@@ -2,6 +2,9 @@ class InterestsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_interest, only: [:show, :edit, :update, :destroy]
 
+  # TODO: put in some permissions here on who can access what
+  # Permissions levels on focalpoints
+
   respond_to :html
 
   def index

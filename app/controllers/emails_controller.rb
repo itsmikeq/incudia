@@ -1,10 +1,11 @@
 class EmailsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_email, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
 
   def index
-    @emails = Email.all
+    @emails = current_user.emails
     respond_with(@emails)
   end
 
@@ -13,7 +14,7 @@ class EmailsController < ApplicationController
   end
 
   def new
-    @email = Email.new
+    @email = current_user.emails.new
     respond_with(@email)
   end
 
@@ -21,7 +22,7 @@ class EmailsController < ApplicationController
   end
 
   def create
-    @email = Email.new(email_params)
+    @email = current_user.emails.new(email_params)
     @email.save
     respond_with(@email)
   end
@@ -38,7 +39,7 @@ class EmailsController < ApplicationController
 
   private
     def set_email
-      @email = Email.find(params[:id])
+      @email = current_user.find(params[:id])
     end
 
     def email_params

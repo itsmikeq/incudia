@@ -1,6 +1,10 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_owner, only: [:destroy]
+
+  # TODO: put in some permissions here on who can access what
+  # Permissions levels on focalpoints
 
   respond_to :html
 
@@ -38,11 +42,16 @@ class GroupsController < ApplicationController
   end
 
   private
-    def set_group
-      @group = Group.find(params[:id])
-    end
 
-    def group_params
-      params.require(:group).permit(:name, :description, :owner_id, :owner_type, :visibility_level)
-    end
+  def ensure_owner
+    current_user.groups.include? @focalpoint
+  end
+
+  def set_group
+    @group = Group.find(params[:id])
+  end
+
+  def group_params
+    params.require(:group).permit(:name, :description, :owner_id, :owner_type, :visibility_level)
+  end
 end

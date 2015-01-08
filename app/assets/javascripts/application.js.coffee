@@ -19,6 +19,7 @@
 #= require select2
 #= require analytics
 #= require common
+#= require jquery.oembed
 #= require_tree .
 
 
@@ -174,4 +175,7 @@ $ ->
 )(jQuery)
 
 $('.dropdown-toggle').dropdown()
+
+$ ->
+  $("a.embed").oembed();
 
