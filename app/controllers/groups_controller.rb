@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
-  before_filter :ensure_owner, only: [:destroy]
+  before_action :group, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_owner, only: [:destroy, :update]
 
   # TODO: put in some permissions here on who can access what
   # Permissions levels on focalpoints
@@ -11,6 +11,10 @@ class GroupsController < ApplicationController
   def index
     @groups = Group.all
     respond_with(@groups)
+  end
+
+  def join
+    respond_with(current_user.groups << group)
   end
 
   def show
@@ -37,6 +41,13 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    # We dont want to loose history, just change ownership
+    unless current_user.admin?
+      @new_owner = group.users.where("user_id not in (?)", group.users.where("user_id == ?", current_user.id)).first
+      # return only if there is a new owner to be found, otherwise delete it.
+      # TODO: Add notification of new owner
+      return respond_with group.update_attribute :owner, @new_owner if @new_owner
+    end
     @group.destroy
     respond_with(@group)
   end
@@ -44,11 +55,11 @@ class GroupsController < ApplicationController
   private
 
   def ensure_owner
-    current_user.groups.include? @focalpoint
+    current_user.owned_groups.include? @group
   end
 
-  def set_group
-    @group = Group.find(params[:id])
+  def group
+    @group ||= Group.find(params[:id])
   end
 
   def group_params

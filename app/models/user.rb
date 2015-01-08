@@ -186,15 +186,20 @@ class User < ActiveRecord::Base
 
   # Instance methods
 
-  def memberships
-    Membership.where(member_id: id, of_type: "User")
+  def owned_groups
+    Group.where(owner: self)
   end
 
-  def namespace_uniq
-    namespace_name = self.username
-    if Namespace.find_by(path: namespace_name)
-      self.errors.add :username, "already exists"
-    end
+  def owned_interests
+    Interest.where(owner: self)
+  end
+
+  def owned_areas
+    Area.where(owner: self)
+  end
+
+  def owned_companies
+    Company.where(owner: self)
   end
 
   def unique_email

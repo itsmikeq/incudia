@@ -1,7 +1,9 @@
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :membership, only: [:show, :edit, :update, :destroy]
 
+  # TODO: Make this into a service matcher for all user->group-like relations
+  # TODO: Funnel all join/leave operations through here
   respond_to :html
 
   def index
@@ -38,8 +40,8 @@ class MembershipsController < ApplicationController
   end
 
   private
-    def set_membership
-      @membership = Membership.find(params[:id])
+    def membership
+      @membership ||= Membership.find(params[:id])
     end
 
     def membership_params

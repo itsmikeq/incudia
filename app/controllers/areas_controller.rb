@@ -1,6 +1,7 @@
 class AreasController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_area, only: [:show, :edit, :update, :destroy]
+  before_action :area, only: [:show, :edit, :update, :destroy]
+  before_filter :ensure_owner, only: [:destroy, :update]
 
   respond_to :html
 
@@ -11,6 +12,10 @@ class AreasController < ApplicationController
 
   def show
     respond_with(@area)
+  end
+
+  def join
+    respond_with(current_user.areas << area)
   end
 
   def new
@@ -33,16 +38,29 @@ class AreasController < ApplicationController
   end
 
   def destroy
+    # We dont want to loose history, just change ownership
+    unless current_user.admin?
+      @new_owner = area.users.where("user_id not in (?)", area.users.where("user_id == ?", current_user.id)).first
+      # return only if there is a new owner to be found, otherwise delete it.
+      # TODO: Add notification of new owner
+      return respond_with area.update_attribute :owner, @new_owner if @new_owner
+    end
+
     @area.destroy
     respond_with(@area)
   end
 
   private
-    def set_area
-      @area = Area.find(params[:id])
-    end
+  def area
+    @area ||= Area.find(params[:id])
+  end
 
-    def area_params
-      params.require(:area).permit(:name, :description, :owner_id)
-    end
+  def area_params
+    params.require(:area).permit(:name, :description, :owner_id)
+  end
+
+  def ensure_owner
+    current_user.companies.include? @focalpoint
+  end
+
 end

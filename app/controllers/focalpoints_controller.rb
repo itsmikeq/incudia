@@ -2,7 +2,7 @@ class FocalpointsController < ApplicationController
   before_action :authenticate_user!
   before_action :focalpoint, only: [:show, :edit, :update, :destroy]
   before_filter :ensure_logged_in, only: [:new, :create, :edit, :update]
-  before_filter :ensure_owner, only: [:destroy]
+  before_filter :ensure_owner, only: [:destroy, :update]
 
   respond_to :html
 
@@ -13,6 +13,10 @@ class FocalpointsController < ApplicationController
 
   def show
     respond_with(@focalpoint)
+  end
+
+  def join
+    respond_with(current_user.focalpoints << focalpoint)
   end
 
   def new
@@ -36,6 +40,14 @@ class FocalpointsController < ApplicationController
   end
 
   def destroy
+    # We dont want to loose history, just change ownership
+    unless current_user.admin?
+      @new_owner = focalpoint.users.where("user_id not in (?)", focalpoint.users.where("user_id == ?", current_user.id)).first
+      # return only if there is a new owner to be found, otherwise delete it.
+      # TODO: Add notification of new owner
+      return respond_with focalpoint.update_attribute :owner, @new_owner if @new_owner
+    end
+
     @focalpoint.destroy
     respond_with(@focalpoint)
   end
@@ -47,7 +59,7 @@ class FocalpointsController < ApplicationController
   end
 
   def focalpoint
-    @focalpoint = Focalpoint.find(params[:id])
+    @focalpoint ||= Focalpoint.find(params[:id])
   end
 
   def focal_params

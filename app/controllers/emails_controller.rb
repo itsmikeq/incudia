@@ -2,6 +2,7 @@ class EmailsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_email, only: [:show, :edit, :update, :destroy]
 
+  # These will never be available to other users.  Meaning that UserA will never see UserB's email addr
   respond_to :html
 
   def index
