@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108050706) do
+ActiveRecord::Schema.define(version: 20150109055122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,9 +184,10 @@ ActiveRecord::Schema.define(version: 20150108050706) do
     t.string   "member_type"
     t.integer  "of_id"
     t.string   "of_type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "role"
+    t.integer  "visibility_level"
   end
 
   add_index "memberships", ["member_type", "member_id"], name: "index_memberships_on_member_type_and_member_id", using: :btree

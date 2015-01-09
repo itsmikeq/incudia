@@ -127,8 +127,6 @@ Incudia::Application.routes.draw do
 
   resources :emails
 
-  resources :focalpoints_users
-
   resources :social_nets
 
   resources :broadcast_messages
@@ -136,7 +134,7 @@ Incudia::Application.routes.draw do
   resources :social_nets_users
 
   # devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
-  devise_for :users, :controllers => { omniauth_callbacks: :omniauth_callbacks, registrations: :registrations , passwords: :passwords, sessions: :sessions, confirmations: :confirmations }
+  devise_for :users, :controllers => { omniauth_callbacks: :omniauth_callbacks, registrations: :registrations, passwords: :passwords, sessions: :sessions, confirmations: :confirmations }
   devise_scope :user do
     get "/users/auth/:provider/omniauth_error" => "omniauth_callbacks#omniauth_error", as: :omniauth_error
   end
@@ -159,11 +157,21 @@ Incudia::Application.routes.draw do
     end
 
   end
+
   match "/u/:username" => "users#show", as: :user, constraints: { username: /.*/ }, via: :get
+
+  # User memberships
+  # resources :user, constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ } do
+  # end
 
   resources :focalpoints
 
-  resources :areas
+  resources :areas do
+    # collection do
+    #   delete :leave
+    #   post :join
+    # end
+  end
 
   resources :ext_services
 
@@ -173,26 +181,57 @@ Incudia::Application.routes.draw do
 
   resources :memberships
 
+  match '/groups/:name/join' => 'memberships#join', as: :join_group, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  match '/groups/:name/leave' => 'memberships#leave', as: :leave_group, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  # Used for testing
+  match '/groups/:name' => 'memberships#index', as: :list_groups, via: [:get], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }, only: [:index]
+
+  match '/interests/:name/join' => 'memberships#join', as: :join_interest, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  match '/interests/:name/leave' => 'memberships#leave', as: :leave_interest, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+
+  match '/areas/:name/join' => 'memberships#join', as: :join_area, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  match '/areas/:name/leave' => 'memberships#leave', as: :leave_area, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+
+  match '/focalpoints/:name/join' => 'memberships#join', as: :join_focalpoint, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  match '/focalpoints/:name/leave' => 'memberships#leave', as: :leave_focalpoint, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+
+
   resources :notifications
 
-  resources :groups
+  resources :groups do
+    # collection do
+    #   delete :leave
+    #   post :join
+    # end
+  end
 
   resources :namespaces
 
-  resources :companies
+  resources :companies do
+    # collection do
+    #   delete :leave
+    #   post :join
+    # end
+  end
 
-  resources :interests
+  resources :interests do
+    # collection do
+    #   delete :leave
+    #   post :join
+    # end
 
-  root "pages#home"    
+  end
+
+  root "pages#home"
   get "home", to: "pages#home", as: "home"
   get "inside", to: "pages#inside", as: "inside"
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
-      
+
 
   namespace :admin do
     root "base#index"
     resources :users
-    
+
   end
-  
+
 end
