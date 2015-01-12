@@ -167,10 +167,10 @@ Incudia::Application.routes.draw do
   resources :focalpoints
 
   resources :areas do
-    # collection do
-    #   delete :leave
-    #   post :join
-    # end
+    collection do
+      delete :leave
+      post :join
+    end
   end
 
   resources :ext_services
@@ -189,11 +189,14 @@ Incudia::Application.routes.draw do
   match '/interests/:name/join' => 'memberships#join', as: :join_interest, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
   match '/interests/:name/leave' => 'memberships#leave', as: :leave_interest, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
 
-  match '/areas/:name/join' => 'memberships#join', as: :join_area, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
-  match '/areas/:name/leave' => 'memberships#leave', as: :leave_area, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  # match '/areas/:name/join' => 'memberships#join', as: :join_area, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  # match '/areas/:name/leave' => 'memberships#leave', as: :leave_area, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
 
   match '/focalpoints/:name/join' => 'memberships#join', as: :join_focalpoint, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
   match '/focalpoints/:name/leave' => 'memberships#leave', as: :leave_focalpoint, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+
+  match '/companies/:name/join' => 'companies#join', as: :join_company, via: [:post], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
+  match '/companies/:name/leave' => 'companies#leave', as: :leave_company, via: [:delete], constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ }
 
 
   resources :notifications
@@ -222,9 +225,7 @@ Incudia::Application.routes.draw do
 
   end
 
-  root "pages#home"
-  get "home", to: "pages#home", as: "home"
-  get "inside", to: "pages#inside", as: "inside"
+  root "dashboard#home"
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
 

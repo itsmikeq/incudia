@@ -1,0 +1,26 @@
+%h3.page-title
+  %p.page-header
+    = current_user.name
+
+
+.container
+  %ul.list-group
+    %li.list-group-item
+      =link_to "Interests", interests_path
+      %span{class: "badge"}
+        = @interests.count
+
+    %li.list-group-item
+      =link_to "Areas", areas_path
+      %span{class: "badge"}
+        =@areas.count
+
+    %li.list-group-item
+      =link_to "Companies", companies_path
+      %span{class: "badge"}
+        = @companies.count
+
+    %li.list-group-item
+      =link_to "Content", embedded_contents_path
+      %span{class: "badge"}
+        = @content.count
