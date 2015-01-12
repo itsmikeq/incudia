@@ -12,13 +12,23 @@ end
 
 # Standard Rails gems
 gem 'rails', '4.2.0'
-gem 'sass-rails', '5.0.0'
-gem 'uglifier', '2.6.0'
-gem 'coffee-rails', '4.1.0'
-gem 'jquery-rails', '4.0.2'
-gem 'autoprefixer-rails'
-gem 'turbolinks', '2.5.3'
+gem "sass-rails", '~> 4.0.2'
+gem "coffee-rails"
+gem "uglifier"
+gem "therubyracer"
+gem 'turbolinks'
 gem 'jquery-turbolinks'
+
+gem 'select2-rails'
+gem 'jquery-atwho-rails', "~> 0.3.3"
+gem "jquery-rails"
+gem "jquery-ui-rails"
+gem "jquery-scrollto-rails"
+gem "raphael-rails", "~> 2.1.2"
+gem 'bootstrap-sass', '~> 3.0'
+gem "font-awesome-rails", '~> 4.2'
+
+gem 'autoprefixer-rails'
 gem 'jbuilder', '2.2.6'
 gem 'bcrypt', '3.1.9'
 
@@ -37,8 +47,6 @@ gem 'friendly_id', '5.0.4'
 # Font-awesome: https://github.com/FortAwesome/font-awesome-sass
 gem 'font-awesome-sass', '4.2.2'
 
-# Bootstrap 3: https://github.com/twbs/bootstrap-sass
-gem 'bootstrap-sass', '3.3.1.0'
 
 
 group :development, :test do
@@ -109,15 +117,13 @@ group :test do
 
 end
 
-gem "bourbon", "~> 3.2.1"
 gem "delayed_job_active_record"
 gem "email_validator"
 gem "flutie"
 gem "high_voltage"
 gem "i18n-tasks"
 
-gem "neat"
-gem "newrelic_rpm"
+# gem "newrelic_rpm"
 gem "normalize-rails", "~> 3.0.0"
 # gem "rack-timeout"
 gem "recipient_interceptor"
@@ -184,9 +190,6 @@ gem "virtus"
 
 gem 'bitmask_attributes'
 
-gem "therubyracer"
-gem 'sprockets'
-gem 'select2-rails'
 gem 'state_machine'
 # Rails 12factor for Heroku: https://github.com/heroku/rails_12factor
 group :production do
@@ -198,7 +201,3 @@ group :production do
   gem 'unicorn'
 end
 
-gem 'rails-assets-bootstrap-social'
-gem 'rails-assets-bootstrap-sass-official'
-gem 'rails-assets-select2'
-gem 'rails-assets-font-awesome'

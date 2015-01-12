@@ -7,10 +7,10 @@
           %li= msg
 
   .field
-    = f.label :user
-    = f.text_field :user
-  .field
-    = f.label :social_net
-    = f.text_field :social_net
+    = f.label :social_net_name
+    = select_tag(:social_net_id, options_for_select(SocialNet.all.pluck(:name, :id)),
+      id: "social_nets_user", class: "select select2", data: {placeholder: "Choose a social net"})
+    -#%div{placeholder: "Select social net", class: "select select2"}
+    -#  = select(:social_net_user, :social_net, SocialNet.pluck(:name), {:include_blank => true})
   .actions
     = f.submit 'Save'

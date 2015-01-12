@@ -4,8 +4,8 @@
   %b User:
   = @social_nets_user.user
 %p
-  %b Social net:
-  = @social_nets_user.social_net
+  %b Associated Social nets:
+  = @social_nets_user.social_net.name
 
 = link_to 'Edit', edit_social_nets_user_path(@social_nets_user)
 \|

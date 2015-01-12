@@ -24,7 +24,7 @@ class SocialNetsUsersController < ApplicationController
   def create
     @social_nets_user = SocialNetsUser.new(social_nets_user_params.merge!(user: current_user))
     @social_nets_user.save
-    respond_with(@social_nets_user)
+    redirect_to :index
   end
 
   def update
@@ -44,6 +44,6 @@ class SocialNetsUsersController < ApplicationController
     end
 
     def social_nets_user_params
-      params.require(:social_nets_user).permit(:social_net_id)
+      params.permit(:social_net_id)
     end
 end

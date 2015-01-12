@@ -29,3 +29,4 @@ doc/
 /config/application.yml
 .secret
 /config/*.yml
+public/assets

@@ -1,6 +1,6 @@
 %h1 Listing social_nets_users
 
-%table
+%table{class: "table table-bordered table-striped"}
   %thead
     %tr
       %th User
@@ -8,16 +8,16 @@
       %th
       %th
       %th
-      
+
   %tbody
     - @social_nets_users.each do |social_nets_user|
       %tr
         %td= social_nets_user.user
-        %td= social_nets_user.social_net
+        %td= social_nets_user.social_net.name
         %td= link_to 'Show', social_nets_user
         %td= link_to 'Edit', edit_social_nets_user_path(social_nets_user)
         %td= link_to 'Destroy', social_nets_user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Social nets user', new_social_nets_user_path
+= button_to 'New Social nets user', new_social_nets_user_path, method: :get, class: "btn btn-default", data: { disable_with: 'loading...' }
