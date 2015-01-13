@@ -47,7 +47,6 @@
         Username
       = form_for @user, url: update_username_profile_path,  method: :put, remote: true do |f|
         %p
-          Changing your username will change path to all personal projects!
         %div
           = f.text_field :username, required: true, class: 'form-control'
           &nbsp;
@@ -56,7 +55,7 @@
             %i.fa.fa-spinner.fa-spin
             Saving new username
         %p.light
-          = user_url(@user)
+          = user_url(@user.username)
         %div
           = f.submit 'Save username', class: "btn btn-save"
 

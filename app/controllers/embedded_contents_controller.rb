@@ -43,6 +43,6 @@ class EmbeddedContentsController < ApplicationController
     end
 
     def embedded_content_params
-      params.require(:embedded_content).permit(:url, :owner_id, :owner_type, :owner_type)
+      params.require(:embedded_content).permit(:url, :owner_id, :owner_type)
     end
 end

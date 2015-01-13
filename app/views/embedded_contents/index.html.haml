@@ -1,25 +1,20 @@
 %h1 Listing embedded_contents
+%b TODO: Create a dropdown for content-related actions
 
-%table{class: "table table-bordered table-striped"}
-  %thead
-    %tr
-      %th Url
-      %th Owner
-      %th Owner type
-      %th
-      %th
-      %th
-      
-  %tbody
-    - @embedded_contents.each do |embedded_content|
-      %tr
-        %td= embedded_content.url
-        %td= embedded_content.owner
-        %td= embedded_content.owner_type
-        %td= link_to 'Show', embedded_content
-        %td= link_to 'Edit', edit_embedded_content_path(embedded_content)
-        %td= link_to 'Destroy', embedded_content, :method => :delete, :data => { :confirm => 'Are you sure?' }
+- @embedded_contents.each do |embedded_content|
+  .list-group
+    .row
+      .col-xs-3
+        %a{class:"embed", href: embedded_content.url}
+      .col-xs-2.centered
+        %a{class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown"}
+          Actions
+          %span{class: "caret"}
+        %ul{class: "dropdown-menu"}
+          %li
+            =link_to 'Edit', edit_embedded_content_path(embedded_content)
+          %li
+            =link_to 'Destroy', embedded_content, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
 
-= link_to 'New Embedded content', new_embedded_content_path
+= button_to 'New Embedded content', new_embedded_content_path, class: "btn btn-default"

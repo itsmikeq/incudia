@@ -16,11 +16,3 @@
           .col-sm-12
             = yield
 
-    %nav.main-nav.navbar-collapse.collapse
-      .container= render 'layouts/nav/profile'
-    .container
-      .content
-        = render "layouts/flash"
-        = yield
-    = render 'layouts/messages'
-    = render 'layouts/footer'

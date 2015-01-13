@@ -272,3 +272,10 @@ img {
 table, th, td {
   border: 1px solid black;
 }
+
+//[class*="span"].centered {
+.centered {
+  position: relative;
+  top: 100%;
+  transform: translateY(100%);
+}
