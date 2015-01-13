@@ -52,7 +52,7 @@ class CompaniesController < ApplicationController
 
   private
   def ensure_owner
-    current_user.companies.include? @focalpoint
+    current_user.companies.include? @company
   end
 
   def company

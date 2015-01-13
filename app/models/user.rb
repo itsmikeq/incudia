@@ -52,13 +52,11 @@ class User < ActiveRecord::Base
   has_many :social_nets_users, dependent: :destroy
   has_many :social_nets, through: :social_nets_users
   has_many :areas, through: :areas_users
-  has_many :focalpoints, through: :focalpoints_users
   # has_many :interests_users, dependent: :destroy
   # has_many :interests, through: :interests_users
   has_many :interests, through: :memberships, source: "of", source_type: "Interest", dependent: :destroy
   has_many :memberships, as: :member # This is wonky but works, returns 0 but will return for groups
   has_many :groups, through: :memberships, source: "of", source_type: "Group", dependent: :destroy
-  has_many :focalpoints, through: :memberships, source: "of", source_type: "Focalpoint", dependent: :destroy
   has_many :areas, through: :memberships, source: "of", source_type: "Area", dependent: :destroy
   has_many :companies, through: :memberships, source: "of", source_type: "Company", dependent: :destroy
   # has_many :companies, as: :owner

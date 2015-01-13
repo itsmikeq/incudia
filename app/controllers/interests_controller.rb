@@ -4,7 +4,7 @@ class InterestsController < ApplicationController
   before_filter :ensure_owner, only: [:destroy, :update]
 
   # TODO: put in some permissions here on who can access what
-  # Permissions levels on focalpoints
+  # Permissions levels
 
   respond_to :html
 
@@ -59,7 +59,7 @@ class InterestsController < ApplicationController
 
   private
   def ensure_owner
-    current_user.owned_groups.include? interest
+    current_user.owned_interests.include? interest
   end
 
   def interest

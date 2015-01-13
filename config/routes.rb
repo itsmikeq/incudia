@@ -164,8 +164,6 @@ Incudia::Application.routes.draw do
   # resources :user, constraints: { id: /[a-zA-Z.\/0-9_\-#%+]+/ } do
   # end
 
-  resources :focalpoints
-
   resources :areas do
     collection do
       delete :leave

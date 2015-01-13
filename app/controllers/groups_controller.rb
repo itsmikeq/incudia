@@ -4,7 +4,6 @@ class GroupsController < ApplicationController
   before_filter :ensure_owner, only: [:destroy, :update]
 
   # TODO: put in some permissions here on who can access what
-  # Permissions levels on focalpoints
 
   respond_to :html
 

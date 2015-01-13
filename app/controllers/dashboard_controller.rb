@@ -7,7 +7,6 @@ class DashboardController < ApplicationController
     @areas = current_user.areas
     puts "area count: #{@areas.count}"
     puts "Current user: #{current_user.inspect}"
-    @focals = current_user.focalpoints
     @companies = current_user.companies
     @content = current_user.embedded_contents
 

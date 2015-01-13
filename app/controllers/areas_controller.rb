@@ -60,7 +60,7 @@ class AreasController < ApplicationController
   end
 
   def ensure_owner
-    current_user.companies.include? @focalpoint
+    current_user.owned_areas.include? @area
   end
 
 end
