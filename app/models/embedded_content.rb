@@ -16,4 +16,10 @@
 
 class EmbeddedContent < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
+
+  before_save :parse_url
+
+  def parse_url
+    self.url = URI.extract(self.url).first
+  end
 end
