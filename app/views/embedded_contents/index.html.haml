@@ -1,12 +1,12 @@
 %h1 Listing embedded_contents
 %b TODO: Create a dropdown for content-related actions
 
+= button_to 'New Embedded content', new_embedded_content_path, method: :get, class: "btn btn-default"
 - @embedded_contents.each do |embedded_content|
   .list-group
     .row
-      .col-xs-3
+      .col-xs-5
         %a{class:"embed", href: embedded_content.url}
-      .col-xs-2.centered
         %a{class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown"}
           Actions
           %span{class: "caret"}
